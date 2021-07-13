@@ -1,9 +1,7 @@
 import { StoreModel } from '../models/store-model'
 
-export type GetStoresResult = {
-  stores: Array<StoreModel>
-}
+export type GetStoresResult = Array<StoreModel>
 
-export interface AddUser {
+export interface GetAllStores {
   getAllStores: () => Promise<GetStoresResult>
 }
