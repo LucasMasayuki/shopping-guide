@@ -4,7 +4,7 @@ import UnexpectedError from '@/src/domain/errors/unexpected-error'
 import { GetAllStores, GetStoresResult } from '@/src/domain/usecases/get-all-stores'
 import HttpMethods from '@/src/utils/http-methods'
 import HttpStatusCode from '@/src/utils/http-status-code'
-import HttpClientSpy from '@/tests/mocks/http-client-spy'
+import HttpClientSpy from '@/tests/mocks/data/http-client-spy'
 
 import faker from 'faker'
 
