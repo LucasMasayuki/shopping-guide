@@ -27,7 +27,14 @@ describe('RemoteGetAllStores', () => {
     const url = faker.internet.url()
     const { sut, httpClientSpy } = makeSut(url)
 
-    const expectedResponse = [{ name: faker.name.findName(), activity: faker.commerce.department() }]
+    const expectedResponse = [
+      {
+        name: faker.name.findName(),
+        activity: faker.commerce.department(),
+        photo: faker.name.title(),
+        description: faker.name.jobDescriptor(),
+      },
+    ]
 
     httpClientSpy.response = {
       statusCode: HttpStatusCode.OK,
@@ -99,7 +106,14 @@ describe('RemoteGetAllStores', () => {
 
   test('Should return an Authentication.Model if HttpClient returns 200', async () => {
     const { sut, httpClientSpy } = makeSut()
-    const expectedResponse = [{ name: faker.name.findName(), activity: faker.commerce.department() }]
+    const expectedResponse = [
+      {
+        name: faker.name.findName(),
+        activity: faker.commerce.department(),
+        photo: faker.name.title(),
+        description: faker.name.jobDescriptor(),
+      },
+    ]
 
     httpClientSpy.response = {
       statusCode: HttpStatusCode.OK,

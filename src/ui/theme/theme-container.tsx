@@ -8,7 +8,7 @@ import colors from './colors'
 // 2. declare your configuration, these are the defaults
 const config: ColorModeOptions = {
   useSystemColorMode: false,
-  initialColorMode: 'dark',
+  initialColorMode: 'light',
 }
 
 // 3. extend the theme
