@@ -1,9 +1,9 @@
 import React from 'react'
 import { Badge, Box, Image } from '@chakra-ui/react'
-import { StoreModel } from '@/src/domain/models/store-model'
+import { Store } from '@/src/domain/models/store-model'
 
 type Props = {
-  store: StoreModel
+  store: Store
 }
 
 const StoreCard = ({ store }: Props): JSX.Element => {

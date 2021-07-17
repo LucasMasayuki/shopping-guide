@@ -3,7 +3,7 @@ import Head from 'next/head'
 import React, { ChangeEvent } from 'react'
 import { Box, Grid, Select, Skeleton, Text } from '@chakra-ui/react'
 import Dummies from '../dummies/stores-list-dummy.json'
-import { StoreModel } from '../domain/models/store-model'
+import { Store } from '../domain/models/store-model'
 // import makeRemoteGetAllStores from '../main/usecases/remote-get-all-stores-factory'
 import AppBar from '../ui/components/app-bar'
 import Layout from '../ui/components/layout'
@@ -12,12 +12,12 @@ import IndexBanner from '../ui/pages/home/components/index-banner'
 import StoresList from '../ui/pages/home/components/stores-list'
 
 type Props = {
-  allStores: StoreModel[]
+  allStores: Store[]
 }
 
 type StaticProps = {
   props: {
-    allStores: StoreModel[]
+    allStores: Store[]
   }
 }
 

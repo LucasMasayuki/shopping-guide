@@ -1,6 +1,6 @@
-import { StoreModel } from '../models/store-model'
+import { Store } from '../models/store-model'
 
-export type GetStoresResult = Array<StoreModel>
+export type GetStoresResult = Array<Store>
 
 // eslint-disable-next-line no-shadow
 export enum OrderBy {
