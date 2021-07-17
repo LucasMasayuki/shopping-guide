@@ -1,15 +1,15 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import Head from 'next/head'
-import React from 'react'
-import { Box, Skeleton } from '@chakra-ui/react'
+import React, { ChangeEvent } from 'react'
+import { Box, Grid, Select, Skeleton, Text } from '@chakra-ui/react'
 import Dummies from '../dummies/stores-list-dummy.json'
 import { StoreModel } from '../domain/models/store-model'
 // import makeRemoteGetAllStores from '../main/usecases/remote-get-all-stores-factory'
 import AppBar from '../ui/components/app-bar'
 import Layout from '../ui/components/layout'
 import { APP_NAME } from '../utils/app-settings'
-import StoresList from './home/components/stores-list'
-import IndexBanner from './home/components/index-banner'
+import IndexBanner from '../ui/pages/home/components/index-banner'
+import StoresList from '../ui/pages/home/components/stores-list'
 
 type Props = {
   allStores: StoreModel[]
@@ -22,6 +22,16 @@ type StaticProps = {
 }
 
 const Index = ({ allStores }: Props): JSX.Element => {
+  const [stores, setStores] = React.useState(allStores)
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onChange = (selectedElement: ChangeEvent<HTMLSelectElement>): void => {
+    // const { value } = selectedElement.target
+    // eslint-disable-next-line no-console
+    //   const allStores = await makeRemoteGetAllStores().getAllStores(value)
+    setStores(Dummies.stores.slice(0, 2))
+  }
+
   return (
     <>
       <Layout>
@@ -32,8 +42,16 @@ const Index = ({ allStores }: Props): JSX.Element => {
         <IndexBanner />
 
         <Box p="16" top="-10" borderRadius="30" background="white" position="relative">
-          <Skeleton isLoaded={allStores.length > 0}>
-            <StoresList stores={allStores} />
+          <Grid gridTemplateColumns="35% 45%" width="250px" ml="12" mb="12" alignItems="center">
+            <Text fontSize="14">Ordenar por:</Text>
+            <Select defaultValue="name" size="sm" onChange={onChange}>
+              <option value="name">Nome</option>
+              <option value="activity">Atividade</option>
+            </Select>
+          </Grid>
+
+          <Skeleton isLoaded={stores.length > 0}>
+            <StoresList stores={stores} />
           </Skeleton>
         </Box>
       </Layout>
@@ -44,7 +62,7 @@ const Index = ({ allStores }: Props): JSX.Element => {
 export default Index
 
 export const getServerSideProps = async (): Promise<StaticProps> => {
-  //   const allStores = await makeRemoteGetAllStores().getAllStores()
+  //   const allStores = await makeRemoteGetAllStores().getAllStores('name')
   const allStores = Dummies.stores
 
   return {

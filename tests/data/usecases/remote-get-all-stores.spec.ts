@@ -1,7 +1,7 @@
 import RemoteGetAllStores from '@/src/data/usecases/remote-get-all-stores'
 import InvalidCredentialsError from '@/src/domain/errors/invalid-credentials-error'
 import UnexpectedError from '@/src/domain/errors/unexpected-error'
-import { GetAllStores, GetStoresResult } from '@/src/domain/usecases/get-all-stores'
+import { GetAllStores, GetStoresResult, OrderBy } from '@/src/domain/usecases/get-all-stores'
 import HttpMethods from '@/src/utils/http-methods'
 import HttpStatusCode from '@/src/utils/http-status-code'
 import HttpClientSpy from '@/tests/mocks/data/http-client-spy'
@@ -41,9 +41,9 @@ describe('RemoteGetAllStores', () => {
       body: expectedResponse,
     }
 
-    await sut.getAllStores()
+    await sut.getAllStores(OrderBy.NAME)
 
-    expect(httpClientSpy.url).toBe(url)
+    expect(httpClientSpy.url).toBe(`${url}?orderBy=${OrderBy.NAME}`)
     expect(httpClientSpy.method).toBe(HttpMethods.GET)
   })
 
@@ -53,7 +53,7 @@ describe('RemoteGetAllStores', () => {
       statusCode: HttpStatusCode.UNAUTHORIZED,
     }
 
-    const promise = sut.getAllStores()
+    const promise = sut.getAllStores(OrderBy.NAME)
 
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
@@ -64,7 +64,7 @@ describe('RemoteGetAllStores', () => {
       statusCode: HttpStatusCode.BAD_REQUEST,
     }
 
-    const promise = sut.getAllStores()
+    const promise = sut.getAllStores(OrderBy.NAME)
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -75,7 +75,7 @@ describe('RemoteGetAllStores', () => {
       statusCode: HttpStatusCode.ERROR,
     }
 
-    const promise = sut.getAllStores()
+    const promise = sut.getAllStores(OrderBy.NAME)
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -86,7 +86,7 @@ describe('RemoteGetAllStores', () => {
       statusCode: HttpStatusCode.NOT_FOUND,
     }
 
-    const promise = sut.getAllStores()
+    const promise = sut.getAllStores(OrderBy.NAME)
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -99,7 +99,7 @@ describe('RemoteGetAllStores', () => {
       body: undefined,
     }
 
-    const promise = sut.getAllStores()
+    const promise = sut.getAllStores(OrderBy.NAME)
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -120,7 +120,7 @@ describe('RemoteGetAllStores', () => {
       body: expectedResponse,
     }
 
-    const stores = await sut.getAllStores()
+    const stores = await sut.getAllStores(OrderBy.NAME)
 
     expect(stores).toEqual(expectedResponse)
   })

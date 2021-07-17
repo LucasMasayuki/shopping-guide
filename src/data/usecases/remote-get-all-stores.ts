@@ -1,6 +1,6 @@
 import InvalidCredentialsError from '@/src/domain/errors/invalid-credentials-error'
 import UnexpectedError from '@/src/domain/errors/unexpected-error'
-import { GetAllStores, GetStoresResult } from '@/src/domain/usecases/get-all-stores'
+import { GetAllStores, GetStoresResult, OrderBy } from '@/src/domain/usecases/get-all-stores'
 import HttpMethods from '@/src/utils/http-methods'
 import HttpStatusCode from '@/src/utils/http-status-code'
 import { HttpClient } from '../protocols/http/http-client'
@@ -15,9 +15,9 @@ export default class RemoteGetAllStores implements GetAllStores {
     this.httpClient = httpClient
   }
 
-  async getAllStores(): Promise<GetStoresResult> {
+  async getAllStores(orderBy: OrderBy): Promise<GetStoresResult> {
     const httpResponse = await this.httpClient.request({
-      url: this.url,
+      url: `${this.url}?orderBy=${orderBy}`,
       method: HttpMethods.GET,
     })
 

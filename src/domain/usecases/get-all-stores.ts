@@ -2,6 +2,12 @@ import { StoreModel } from '../models/store-model'
 
 export type GetStoresResult = Array<StoreModel>
 
+// eslint-disable-next-line no-shadow
+export enum OrderBy {
+  NAME = 'name',
+  ACTIVITY = 'activity',
+}
+
 export interface GetAllStores {
-  getAllStores: () => Promise<GetStoresResult>
+  getAllStores: (orderBy: OrderBy) => Promise<GetStoresResult>
 }
