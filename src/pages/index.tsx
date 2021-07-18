@@ -8,8 +8,8 @@ import { Store } from '../domain/models/store-model'
 import AppBar from '../ui/components/app-bar'
 import Layout from '../ui/components/layout'
 import { APP_NAME } from '../utils/app-settings'
-import IndexBanner from '../ui/pages/home/components/index-banner'
-import StoresList from '../ui/pages/home/components/stores-list'
+import IndexBanner from '../ui/page-components/home/index-banner'
+import StoresList from '../ui/page-components/home/stores-list'
 
 type Props = {
   allStores: Store[]

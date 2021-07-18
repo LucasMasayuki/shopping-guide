@@ -28,7 +28,7 @@ export default class RemoteGetStore implements GetStore {
           return httpResponse.body
         }
 
-        throw new UnexpectedError()
+        throw new UnexpectedError(httpResponse.statusCode)
       }
 
       case HttpStatusCode.UNAUTHORIZED:

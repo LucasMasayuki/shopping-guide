@@ -1,7 +1,7 @@
 export type Product = {
   name: string
 
-  cat3egory: string
+  category: string
 
   description: string | null
 
@@ -10,4 +10,6 @@ export type Product = {
   price: number
 
   quantity: number
+
+  photo: string
 }
