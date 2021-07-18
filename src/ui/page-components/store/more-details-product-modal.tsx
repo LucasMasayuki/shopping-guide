@@ -46,6 +46,10 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product }: Props): JSX.Eleme
     return currency(quantity * product.price)
   }
 
+  const onAddProduct = (): void => {
+    onClose()
+  }
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} size="6xl">
@@ -88,7 +92,9 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product }: Props): JSX.Eleme
                 borderLeft="1px solid lightgray"
               />
             </Grid>
-            <Button colorScheme="blue">Adicionar {getPrice()}</Button>
+            <Button colorScheme="blue" onClose={onAddProduct}>
+              Adicionar {getPrice()}
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
