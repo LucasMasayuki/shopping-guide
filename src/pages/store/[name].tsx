@@ -51,6 +51,7 @@ const StoreView = ({ store, errorCode }: Props): JSX.Element => {
     return <ErrorPage statusCode={errorCode} />
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const categories = groupBy(store?.products ?? [], (i: { category: any }) => i.category)
 
   return (
@@ -77,7 +78,7 @@ const StoreView = ({ store, errorCode }: Props): JSX.Element => {
             </Box>
           </Box>
           <Box p="16" top="-10" borderRadius="30" background="white" position="relative">
-            {store !== null && store.products.length !== 0 && <ProductList categories={categories} />}
+            <ProductList categories={categories} />
           </Box>
         </Skeleton>
       </Layout>
