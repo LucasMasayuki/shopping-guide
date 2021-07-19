@@ -10,6 +10,15 @@ export default class LocalGetCart implements GetCart {
 
   async getCart(): Promise<GetCartResult> {
     const json = this.storage.get('cart')
-    return JSON.parse(json ?? '') as GetCartResult
+    let cart: GetCartResult = {
+      products: [],
+      total: 0,
+    }
+
+    if (json !== null) {
+      cart = JSON.parse(json) as GetCartResult
+    }
+
+    return cart
   }
 }

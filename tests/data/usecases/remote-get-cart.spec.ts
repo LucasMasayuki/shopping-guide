@@ -39,6 +39,7 @@ describe('RemoteGetStore', () => {
           price: 10,
           description: faker.lorem.paragraph(),
           quantity: 10,
+          inStock: 10,
         },
       ],
     }
@@ -118,12 +119,13 @@ describe('RemoteGetStore', () => {
       total: 10,
       products: [
         {
-          id: 10,
+          id: 1,
           name: faker.name.title(),
           photo: faker.internet.url(),
           category: faker.name.jobDescriptor(),
           price: 10,
           description: faker.lorem.paragraph(),
+          inStock: 10,
           quantity: 10,
         },
       ],

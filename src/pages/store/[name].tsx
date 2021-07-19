@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Skeleton } from '@chakra-ui/react'
 
@@ -12,9 +12,12 @@ import Layout from '@/src/ui/components/layout'
 import AppBar from '@/src/ui/components/app-bar'
 import makeRemoteGetAllStores from '@/src/main/usecases/remote-get-all-stores-factory'
 import { OrderBy } from '@/src/domain/usecases/get-all-stores'
-import CartIcon from '@/src/ui/components/cart-icon'
+import CartIcon from '@/src/ui/page-components/store/cart-icon'
 import ProductList from '@/src/ui/page-components/store/product-list'
 import { groupBy } from '@/src/utils/utiltiies-functions'
+import makeLocalGetCart from '@/src/main/usecases/local-get-cart-factory'
+import { Cart } from '@/src/domain/models/cart-model'
+import { Product } from '@/src/domain/models/product-model'
 import Dummies from '../../dummies/stores-list-dummy.json'
 
 type Props = {
@@ -46,7 +49,17 @@ type StaticProps = {
 
 // eslint-disable-next-line no-unused-vars
 const StoreView = ({ store, errorCode }: Props): JSX.Element => {
+  const products: Product[] = []
+  const [cart, setCart] = useState({ total: 0, products })
+
+  useEffect(() => {
+    makeLocalGetCart()
+      .getCart()
+      .then((localCart: Cart) => setCart(localCart))
+  }, [])
+
   const router = useRouter()
+
   if (!router.isFallback && errorCode) {
     return <ErrorPage statusCode={errorCode} />
   }
@@ -60,7 +73,7 @@ const StoreView = ({ store, errorCode }: Props): JSX.Element => {
         <Head>
           <title>{store?.name}</title>
         </Head>
-        <AppBar drawerElement={<CartIcon />} />
+        <AppBar drawerElement={<CartIcon cart={cart} />} />
         <Skeleton isLoaded={!router.isFallback} mt="72px">
           <Box
             backgroundImage={store?.photo ?? ''}
@@ -78,7 +91,7 @@ const StoreView = ({ store, errorCode }: Props): JSX.Element => {
             </Box>
           </Box>
           <Box p="16" top="-10" borderRadius="30" background="white" position="relative">
-            <ProductList categories={categories} />
+            <ProductList categories={categories} setCart={setCart} />
           </Box>
         </Skeleton>
       </Layout>

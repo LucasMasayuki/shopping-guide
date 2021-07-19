@@ -11,18 +11,18 @@ export default class LocalAddProductTocart implements AddProductToCart {
 
   async addProductToCart(product: Product): Promise<AddProductToCartResult> {
     const json = this.storage.get('cart')
-    let currentCart: AddProductToCartResult = JSON.parse(json ?? '')
-
-    if (!currentCart) {
-      currentCart = {
-        products: [],
-        total: 0,
-      }
+    let cart: AddProductToCartResult = {
+      products: [],
+      total: 0,
     }
 
-    currentCart.products.push(product)
-    this.storage.set('cart', JSON.stringify(currentCart))
+    if (json !== null) {
+      cart = JSON.parse(json) as AddProductToCartResult
+    }
 
-    return currentCart
+    cart.products.push(product)
+    this.storage.set('cart', JSON.stringify(cart))
+
+    return cart
   }
 }

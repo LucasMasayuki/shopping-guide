@@ -22,10 +22,11 @@ import { FaPlus } from 'react-icons/fa'
 type Props = {
   isOpen: boolean
   onClose: () => void
+  onAddToCart: (product: Product) => void
   product: Product
 }
 
-const MoreDetailsProductModal = ({ isOpen, onClose, product }: Props): JSX.Element => {
+const MoreDetailsProductModal = ({ isOpen, onClose, product, onAddToCart }: Props): JSX.Element => {
   const [quantity, setQuantity] = React.useState(1)
 
   const decreaseQuantity = (): void => {
@@ -33,7 +34,7 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product }: Props): JSX.Eleme
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onBlur = (event: any): void => {
+  const onChange = (event: any): void => {
     const { value } = event.currentTarget
     setQuantity(value)
   }
@@ -46,8 +47,13 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product }: Props): JSX.Eleme
     return currency(quantity * product.price)
   }
 
-  const onAddProduct = (): void => {
-    onClose()
+  const onAdd = (): void => {
+    const chosenProduct = {
+      ...product,
+      quantity,
+    }
+    console.log(chosenProduct)
+    onAddToCart(chosenProduct)
   }
 
   return (
@@ -82,17 +88,17 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product }: Props): JSX.Eleme
                 icon={<MinusIcon />}
                 borderRight="1px solid lightgray"
               />
-              <Input value={quantity} onBlur={onBlur} border="none" w="45px" />
+              <Input defaultValue={quantity} onChange={onChange} border="none" w="45px" />
               <IconButton
                 aria-label="Increase"
-                disabled={product.quantity <= quantity}
+                disabled={product.inStock <= quantity}
                 onClick={increaseQuantity}
                 variant="none"
                 icon={<FaPlus />}
                 borderLeft="1px solid lightgray"
               />
             </Grid>
-            <Button colorScheme="blue" onClose={onAddProduct}>
+            <Button colorScheme="blue" onClick={onAdd}>
               Adicionar {getPrice()}
             </Button>
           </ModalFooter>

@@ -27,6 +27,7 @@ describe('RemoteDeleteProductOfCart', () => {
   test('Should call HttpClient with correct values', async () => {
     const url = faker.internet.url()
     const { sut, httpClientSpy } = makeSut(url)
+
     const product = {
       id: 1,
       name: faker.name.title(),
@@ -34,6 +35,7 @@ describe('RemoteDeleteProductOfCart', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 
@@ -113,6 +115,7 @@ describe('RemoteDeleteProductOfCart', () => {
 
   test('Should return an Authentication.Model if HttpClient returns 200', async () => {
     const { sut, httpClientSpy } = makeSut()
+
     const product = {
       id: 1,
       name: faker.name.title(),
@@ -120,6 +123,7 @@ describe('RemoteDeleteProductOfCart', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 

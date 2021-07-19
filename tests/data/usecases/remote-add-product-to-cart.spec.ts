@@ -34,6 +34,7 @@ describe('RemoteGetStore', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 
@@ -59,6 +60,7 @@ describe('RemoteGetStore', () => {
     httpClientSpy.response = {
       statusCode: HttpStatusCode.UNAUTHORIZED,
     }
+
     const product = {
       id: 1,
       name: faker.name.title(),
@@ -66,6 +68,7 @@ describe('RemoteGetStore', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 
@@ -79,6 +82,7 @@ describe('RemoteGetStore', () => {
     httpClientSpy.response = {
       statusCode: HttpStatusCode.BAD_REQUEST,
     }
+
     const product = {
       id: 1,
       name: faker.name.title(),
@@ -86,6 +90,7 @@ describe('RemoteGetStore', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 
@@ -99,6 +104,7 @@ describe('RemoteGetStore', () => {
     httpClientSpy.response = {
       statusCode: HttpStatusCode.ERROR,
     }
+
     const product = {
       id: 1,
       name: faker.name.title(),
@@ -106,6 +112,7 @@ describe('RemoteGetStore', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 
@@ -119,6 +126,7 @@ describe('RemoteGetStore', () => {
     httpClientSpy.response = {
       statusCode: HttpStatusCode.NOT_FOUND,
     }
+
     const product = {
       id: 1,
       name: faker.name.title(),
@@ -126,6 +134,7 @@ describe('RemoteGetStore', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 
@@ -141,6 +150,7 @@ describe('RemoteGetStore', () => {
       statusCode: HttpStatusCode.OK,
       body: undefined,
     }
+
     const product = {
       id: 1,
       name: faker.name.title(),
@@ -148,6 +158,7 @@ describe('RemoteGetStore', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 
@@ -158,6 +169,7 @@ describe('RemoteGetStore', () => {
 
   test('Should return an Authentication.Model if HttpClient returns 200', async () => {
     const { sut, httpClientSpy } = makeSut()
+
     const product = {
       id: 1,
       name: faker.name.title(),
@@ -165,6 +177,7 @@ describe('RemoteGetStore', () => {
       category: faker.name.jobDescriptor(),
       price: 10,
       description: faker.lorem.paragraph(),
+      inStock: 10,
       quantity: 10,
     }
 

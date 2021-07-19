@@ -9,7 +9,9 @@ export type Product = {
 
   price: number
 
-  quantity: number
+  inStock: number
+
+  quantity: number | null
 
   photo: string
 }

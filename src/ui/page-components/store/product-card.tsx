@@ -2,14 +2,24 @@ import React from 'react'
 import { Box, Grid, Image, useDisclosure } from '@chakra-ui/react'
 import { Product } from '@/src/domain/models/product-model'
 import { currency } from '@/src/utils/utiltiies-functions'
+import makeLocalAddProductToCart from '@/src/main/usecases/local-add-product-to-cart-factory'
+import { Cart } from '@/src/domain/models/cart-model'
 import MoreDetailsProductModal from './more-details-product-modal'
 
 type Props = {
   product: Product
+  setCart: React.Dispatch<React.SetStateAction<Cart>>
 }
 
-const ProductCard = ({ product }: Props): JSX.Element => {
+const ProductCard = ({ product, setCart }: Props): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const onAddToCart = async (toAddProduct: Product): Promise<void> => {
+    const cart = await makeLocalAddProductToCart().addProductToCart(toAddProduct)
+    console.log('test')
+    setCart(cart)
+    onClose()
+  }
 
   return (
     <Grid
@@ -25,7 +35,7 @@ const ProductCard = ({ product }: Props): JSX.Element => {
       _hover={{ bg: 'hsla(0,0%,62%,.2)' }}
     >
       <Box>
-        <MoreDetailsProductModal isOpen={isOpen} onClose={onClose} product={product} />
+        <MoreDetailsProductModal isOpen={isOpen} onClose={onClose} onAddToCart={onAddToCart} product={product} />
         <Box fontWeight="semibold" fontSize="xl" lineHeight="tight" isTruncated>
           {product.name}
         </Box>
@@ -35,7 +45,7 @@ const ProductCard = ({ product }: Props): JSX.Element => {
         </Box>
 
         <Box mt="3" fontSize="12">
-          <b>{product.quantity} produtos</b> no estoque
+          <b>{product.inStock} produtos</b> no estoque
         </Box>
 
         <Box mt="2" fontSize="xl" fontWeight="bold">
