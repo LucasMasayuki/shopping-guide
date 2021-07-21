@@ -1,16 +1,17 @@
-import { Cart } from '@/src/domain/models/cart-model'
 import { Icon } from '@chakra-ui/icons'
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Text, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import { FaShoppingCart } from 'react-icons/fa'
+import { useCartState } from '../../contexts-providers/store/cart-provider'
+import CartDrawer from './cart-drawer'
 
-type Props = {
-  cart: Cart
-}
+const CartIcon = (): JSX.Element => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { cart } = useCartState()
 
-const CartIcon = ({ cart }: Props): JSX.Element => {
   return (
-    <Box position="relative" width="min-content" float="right">
+    <Box position="relative" width="min-content" float="right" onClick={onOpen}>
+      <CartDrawer isOpen={isOpen} onClose={onClose} />
       <Icon as={FaShoppingCart} fontSize="3xl" />
       <Box
         position="absolute"
@@ -24,7 +25,7 @@ const CartIcon = ({ cart }: Props): JSX.Element => {
         alignItems="center"
         justifyItems="center"
       >
-        <Text fontSize="10px" color="black" fontWeight="bold" zIndex="1000">
+        <Text fontSize="10px" color="white" fontWeight="bold" zIndex="1000">
           {cart.products.length}
         </Text>
       </Box>

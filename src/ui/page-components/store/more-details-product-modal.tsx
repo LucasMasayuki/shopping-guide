@@ -52,26 +52,26 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product, onAddToCart }: Prop
       ...product,
       quantity,
     }
-    console.log(chosenProduct)
     onAddToCart(chosenProduct)
+    setQuantity(1)
   }
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="4xl">
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
           <ModalBody>
             <Grid gridTemplateColumns="auto auto" gap="10">
               <Box d="flex" alignItems="center">
-                <Image loading="lazy" src={product.photo ?? ''} h="200 " w="50" borderRadius="8" />
+                <Image loading="lazy" src={product.photo ?? ''} h="200" w="150" borderRadius="8" />
               </Box>
-              <Box>
+              <Box h="100%">
                 <Text fontSize="20" fontWeight="bold" mb="1rem" mt="1rem">
                   {product.name}
                 </Text>
-                <Text mb="1rem" mt="1rem">
+                <Text mb="1rem" mt="1rem" h="300px" overflow="auto">
                   {product.description}
                 </Text>
               </Box>
@@ -88,7 +88,7 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product, onAddToCart }: Prop
                 icon={<MinusIcon />}
                 borderRight="1px solid lightgray"
               />
-              <Input defaultValue={quantity} onChange={onChange} border="none" w="45px" />
+              <Input value={quantity} onChange={onChange} border="none" textAlign="center" w="45px" />
               <IconButton
                 aria-label="Increase"
                 disabled={product.inStock <= quantity}
@@ -98,7 +98,7 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product, onAddToCart }: Prop
                 borderLeft="1px solid lightgray"
               />
             </Grid>
-            <Button colorScheme="blue" onClick={onAdd}>
+            <Button bgColor="secondaryColor" color="white" onClick={onAdd}>
               Adicionar {getPrice()}
             </Button>
           </ModalFooter>

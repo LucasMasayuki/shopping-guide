@@ -1,19 +1,17 @@
 import React from 'react'
 import { Box, Grid, Heading } from '@chakra-ui/react'
 import { Product } from '@/src/domain/models/product-model'
-import { Cart } from '@/src/domain/models/cart-model'
 import ProductCard from './product-card'
 
 type Props = {
   categories: GroupByCategory
-  setCart: React.Dispatch<React.SetStateAction<Cart>>
 }
 
 type GroupByCategory = {
   [category: string]: Product[]
 }
 
-const ProductList = ({ categories, setCart }: Props): JSX.Element => {
+const ProductList = ({ categories }: Props): JSX.Element => {
   return (
     <>
       {Object.keys(categories).map((category: string) => {
@@ -24,7 +22,7 @@ const ProductList = ({ categories, setCart }: Props): JSX.Element => {
             </Heading>
             <Grid templateColumns={{ base: 'repeat(1, 1fr)', lg: 'repeat(2, 1fr)' }} gap={16}>
               {categories[category].map((product: Product) => (
-                <ProductCard key={product.name} product={product} setCart={setCart} />
+                <ProductCard key={product.name} product={product} />
               ))}
             </Grid>
           </Box>

@@ -11,7 +11,7 @@ export type Product = {
 
   inStock: number
 
-  quantity: number | null
+  quantity: number
 
   photo: string
 }

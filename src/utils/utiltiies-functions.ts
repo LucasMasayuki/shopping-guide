@@ -1,3 +1,5 @@
+import { Cart } from '../domain/models/cart-model'
+
 export const groupBy = <T, K extends keyof any>(list: T[], getKey: (item: T) => K): Record<K, T[]> =>
   list.reduce((previous, currentItem) => {
     const group = getKey(currentItem)
@@ -14,4 +16,14 @@ export const currency = (value: number): string => {
   })
 
   return intl.format(value)
+}
+
+export const getCartTotal = (cart: Cart): number => {
+  let total = 0
+
+  cart.products.forEach((product) => {
+    total += product.quantity * product.price
+  })
+
+  return total
 }

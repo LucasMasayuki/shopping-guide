@@ -3,21 +3,20 @@ import { Box, Grid, Image, useDisclosure } from '@chakra-ui/react'
 import { Product } from '@/src/domain/models/product-model'
 import { currency } from '@/src/utils/utiltiies-functions'
 import makeLocalAddProductToCart from '@/src/main/usecases/local-add-product-to-cart-factory'
-import { Cart } from '@/src/domain/models/cart-model'
 import MoreDetailsProductModal from './more-details-product-modal'
+import { useCartState } from '../../contexts-providers/store/cart-provider'
 
 type Props = {
   product: Product
-  setCart: React.Dispatch<React.SetStateAction<Cart>>
 }
 
-const ProductCard = ({ product, setCart }: Props): JSX.Element => {
+const ProductCard = ({ product }: Props): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { setCart } = useCartState()
 
   const onAddToCart = async (toAddProduct: Product): Promise<void> => {
     const cart = await makeLocalAddProductToCart().addProductToCart(toAddProduct)
-    console.log('test')
-    setCart(cart)
+    setCart({ ...cart })
     onClose()
   }
 
