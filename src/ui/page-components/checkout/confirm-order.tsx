@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 
-import { Box, Button, Grid, Heading } from '@chakra-ui/react'
+import { Box, Button, Grid, Heading, useToast } from '@chakra-ui/react'
 import makeLocalGetCart from '@/src/main/usecases/local-get-cart-factory'
 import { Cart } from '@/src/domain/models/cart-model'
 import { currency } from '@/src/utils/utiltiies-functions'
 import { Formik, FormikHelpers } from 'formik'
+import makeRemotePurchase from '@/src/main/usecases/remote-purchase-factory'
+import { useRouter } from 'next/router'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
 import ProductInput from '../shared/product-input'
 import PaymentForm from './payment-form'
@@ -20,6 +22,10 @@ export type PaymentFormFields = {
 const ConfirmOrder = (): JSX.Element => {
   const { cart, setCart } = useCartState()
 
+  const router = useRouter()
+  const toast = useToast()
+  const { storeName } = router.query
+
   useEffect(() => {
     makeLocalGetCart()
       .getCart()
@@ -29,7 +35,32 @@ const ConfirmOrder = (): JSX.Element => {
   }, [setCart])
 
   const onSubmit = async (values: PaymentFormFields, actions: FormikHelpers<PaymentFormFields>): Promise<void> => {
+    const purchaseParams = {
+      cart,
+      creditcard: {
+        cvv: values.cvv,
+        number: values.number,
+        name: values.fullName,
+        expireDate: values.expireDate,
+      },
+      takeoutPayment: values.takeoutPayment !== '' ? values.takeoutPayment : null,
+    }
+
+    try {
+      makeRemotePurchase().purchase(purchaseParams)
+    } catch (e) {
+      toast({
+        title: `${e}`,
+        status: 'error',
+        isClosable: true,
+      })
+
+      actions.setSubmitting(false)
+      return
+    }
+
     actions.setSubmitting(false)
+    router.push(`${storeName}/checkout-done`)
   }
 
   return (
