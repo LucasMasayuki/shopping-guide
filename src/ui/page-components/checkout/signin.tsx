@@ -1,13 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
-import { Formik, Form, Field, FieldProps } from 'formik'
+import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik'
 import validator from 'validator'
 
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Text } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Text, useToast } from '@chakra-ui/react'
+import makeRemoteSignin from '@/src/main/usecases/remote-signin-factory'
 import { useSigninSignupState } from '../../contexts-providers/store/signin-signup-provider'
+import { useAuthState } from '../../contexts-providers/store/auth-provider'
+
+type SigninForm = { email: string }
 
 const Signin = (): JSX.Element => {
+  const { setAuth } = useAuthState()
   const { setIsSigninScreen } = useSigninSignupState()
+  const toast = useToast()
 
   const validateEmail = (email: string): string => {
     let error = ''
@@ -19,6 +25,24 @@ const Signin = (): JSX.Element => {
     return error
   }
 
+  const onSubmit = async (values: SigninForm, actions: FormikHelpers<SigninForm>): Promise<void> => {
+    let user = null
+    try {
+      user = await makeRemoteSignin().login(values.email)
+    } catch (e) {
+      toast({
+        title: `${e}`,
+        status: 'error',
+        isClosable: true,
+      })
+      actions.setSubmitting(false)
+      return
+    }
+
+    setAuth(user)
+    actions.setSubmitting(false)
+  }
+
   return (
     <>
       <Text fontWeight="bold" fontSize="xl" mb="5">
@@ -27,15 +51,7 @@ const Signin = (): JSX.Element => {
       <Text fontSize="md" mb="5">
         Coloque seu email de cadastro da loja
       </Text>
-      <Formik
-        initialValues={{ email: '' }}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            actions.setSubmitting(false)
-          }, 1000)
-        }}
-      >
+      <Formik initialValues={{ email: '' }} onSubmit={(values, action) => onSubmit(values, action)}>
         {(props) => (
           <Form>
             <Box mt="30" mb="30">
