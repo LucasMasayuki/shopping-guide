@@ -1,13 +1,19 @@
 import React from 'react'
-import { Formik, Form, Field, FieldProps } from 'formik'
+import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik'
 import validator from 'validator'
 
-import { Button, FormControl, FormErrorMessage, FormLabel, Grid, Input, Heading } from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormLabel, Grid, Input, Heading, useToast } from '@chakra-ui/react'
 import { isValidCpf } from '@/src/utils/utiltiies-functions'
+import makeRemoteSignup from '@/src/main/usecases/remote-signup-factory'
 import { useSigninSignupState } from '../../contexts-providers/store/signin-signup-provider'
+import { useAuthState } from '../../contexts-providers/store/auth-provider'
+
+type SignupForm = { email: string; birthdate: string; name: string; document: string; interests: string }
 
 const Signup = (): JSX.Element => {
+  const { setAuth } = useAuthState()
   const { setIsSigninScreen } = useSigninSignupState()
+  const toast = useToast()
 
   const validateEmail = (email: string): string => {
     let error = ''
@@ -49,16 +55,29 @@ const Signup = (): JSX.Element => {
     return error
   }
 
+  const onSubmit = async (values: SignupForm, actions: FormikHelpers<SignupForm>): Promise<void> => {
+    let user = null
+    try {
+      user = await makeRemoteSignup().register(values)
+    } catch (e) {
+      toast({
+        title: `${e}`,
+        status: 'error',
+        isClosable: true,
+      })
+      actions.setSubmitting(false)
+      return
+    }
+
+    setAuth(user)
+    actions.setSubmitting(false)
+  }
+
   return (
     <>
       <Formik
-        initialValues={{ email: '', name: '', document: '', birthdate: '' }}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            actions.setSubmitting(false)
-          }, 1000)
-        }}
+        initialValues={{ email: '', name: '', document: '', birthdate: '', interests: '' }}
+        onSubmit={(values, actions) => onSubmit(values, actions)}
       >
         {(props) => (
           <Form>
@@ -95,7 +114,7 @@ const Signup = (): JSX.Element => {
                 {({ field, form }: FieldProps) => (
                   <FormControl isInvalid={form.errors.birthdate !== undefined} isRequired>
                     <FormLabel htmlFor="birthdate">Aniversário</FormLabel>
-                    <Input {...field} id="birthdate" placeholder="xx/xx/xxxx" />
+                    <Input {...field} id="birthdate" placeholder="xx/xx/xxxx" type="date" />
                     <FormErrorMessage>{form.errors.birthdate}</FormErrorMessage>
                   </FormControl>
                 )}
