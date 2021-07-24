@@ -17,6 +17,7 @@ import {
   Input,
   Text,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { FaPlus, FaTrash } from 'react-icons/fa'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
@@ -24,10 +25,13 @@ import { useCartState } from '../../contexts-providers/store/cart-provider'
 type Props = {
   onClose: () => void
   isOpen: boolean
+  storeName: string
 }
 
-const CartDrawer = ({ onClose, isOpen }: Props): JSX.Element => {
+const CartDrawer = ({ onClose, isOpen, storeName }: Props): JSX.Element => {
   const { cart, setCart } = useCartState()
+
+  const router = useRouter()
 
   const onIncreaseProduct = (index: number): void => {
     cart.products[index].quantity += 1
@@ -129,11 +133,18 @@ const CartDrawer = ({ onClose, isOpen }: Props): JSX.Element => {
         </DrawerBody>
 
         <DrawerFooter justifyContent="none">
-          <Box w="80%">
+          <Box w="8 0%">
             <Text fontWeight="bold">Total: </Text>
             <Text fontWeight="bold">{currency(cart.total)}</Text>
           </Box>
-          <Button w="100%" bgColor="secondaryColor" color="white" borderRadius="30" justifySelf="flex-end">
+          <Button
+            w="100%"
+            bgColor="secondaryColor"
+            color="white"
+            borderRadius="30"
+            justifySelf="flex-end"
+            onClick={() => router.push(`${storeName}/checkout`)}
+          >
             Finalizar a compra
           </Button>
         </DrawerFooter>

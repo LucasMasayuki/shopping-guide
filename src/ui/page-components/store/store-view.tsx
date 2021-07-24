@@ -32,7 +32,7 @@ const StoreView = ({ store }: Props): JSX.Element => {
 
   return (
     <>
-      <AppBar drawerElement={<CartIcon />} />
+      <AppBar drawerElement={<CartIcon storeName={store?.name ?? ''} />} />
       <Box
         backgroundImage={store?.photo ?? ''}
         backgroundRepeat="no-repeat"

@@ -5,13 +5,17 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
 import CartDrawer from './cart-drawer'
 
-const CartIcon = (): JSX.Element => {
+type Props = {
+  storeName: string
+}
+
+const CartIcon = ({ storeName }: Props): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { cart } = useCartState()
 
   return (
     <Box position="relative" width="min-content" float="right" onClick={onOpen}>
-      <CartDrawer isOpen={isOpen} onClose={onClose} />
+      <CartDrawer isOpen={isOpen} onClose={onClose} storeName={storeName} />
       <Icon as={FaShoppingCart} fontSize="3xl" />
       <Box
         position="absolute"
