@@ -5,20 +5,24 @@ import { Box } from '@chakra-ui/react'
 import { useAuthState } from '../../contexts-providers/store/auth-provider'
 import { SigninSignupStateProvider } from '../../contexts-providers/store/signin-signup-provider'
 import AuthBox from './auth-box'
+import { CartStateProvider } from '../../contexts-providers/store/cart-provider'
+import ConfirmOrder from './confirm-order'
 
 const CheckoutView = (): JSX.Element => {
   const { auth } = useAuthState()
 
   return (
     <>
-      <Box backgroundColor="gray" h="600px" display="grid" alignItems="center" justifyItems="center" textAlign="center">
+      <Box backgroundColor="gray" display="grid" alignItems="center" justifyItems="center" textAlign="center">
         <Box />
-        {auth ? (
+        {!auth ? (
           <SigninSignupStateProvider>
             <AuthBox />
           </SigninSignupStateProvider>
         ) : (
-          <Box />
+          <CartStateProvider>
+            <ConfirmOrder />
+          </CartStateProvider>
         )}
       </Box>
     </>

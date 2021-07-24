@@ -33,12 +33,6 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product, onAddToCart }: Prop
     setQuantity(quantity - 1)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onChange = (event: any): void => {
-    const { value } = event.currentTarget
-    setQuantity(value)
-  }
-
   const increaseQuantity = (): void => {
     setQuantity(quantity + 1)
   }
@@ -88,7 +82,9 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product, onAddToCart }: Prop
                 icon={<MinusIcon />}
                 borderRight="1px solid lightgray"
               />
-              <Input value={quantity} onChange={onChange} border="none" textAlign="center" w="45px" />
+              <Text d="grid" alignItems="center" border="none" textAlign="center" w="45px">
+                {quantity}
+              </Text>
               <IconButton
                 aria-label="Increase"
                 disabled={product.inStock <= quantity}

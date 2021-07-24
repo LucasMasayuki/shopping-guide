@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik'
 import validator from 'validator'
 
 import { Button, FormControl, FormErrorMessage, FormLabel, Grid, Input, Heading, useToast } from '@chakra-ui/react'
-import { isValidCpf } from '@/src/utils/utiltiies-functions'
+import { cpfMask, isValidCpf } from '@/src/utils/utiltiies-functions'
 import makeRemoteSignup from '@/src/main/usecases/remote-signup-factory'
 import { useSigninSignupState } from '../../contexts-providers/store/signin-signup-provider'
 import { useAuthState } from '../../contexts-providers/store/auth-provider'
@@ -13,6 +13,7 @@ type SignupForm = { email: string; birthdate: string; name: string; document: st
 const Signup = (): JSX.Element => {
   const { setAuth } = useAuthState()
   const { setIsSigninScreen } = useSigninSignupState()
+  const [cpf, setCpf] = useState('')
   const toast = useToast()
 
   const validateEmail = (email: string): string => {
@@ -96,7 +97,13 @@ const Signup = (): JSX.Element => {
                 {({ field, form }: FieldProps) => (
                   <FormControl isInvalid={form.errors.document !== undefined} isRequired>
                     <FormLabel htmlFor="document">CPF</FormLabel>
-                    <Input {...field} id="document" placeholder="xxx.xxx.xxx-xx" />
+                    <Input
+                      {...field}
+                      id="document"
+                      placeholder="xxx.xxx.xxx-xx"
+                      value={cpf}
+                      onChange={(event) => setCpf(cpfMask(event.target.value))}
+                    />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                   </FormControl>
                 )}
