@@ -25,11 +25,16 @@ const ConfirmOrder = (): JSX.Element => {
 
   const router = useRouter()
   const toast = useToast()
-  const { storeName } = router.query
+  let { name } = router.query
 
   useEffect(() => {
+    if (Array.isArray(name)) {
+      // eslint-disable-next-line prefer-destructuring
+      name = name[0]
+    }
+
     makeLocalGetCart()
-      .getCart()
+      .getCart(name ?? '')
       .then((localCart: Cart) => {
         setCart(localCart)
       })
@@ -61,7 +66,7 @@ const ConfirmOrder = (): JSX.Element => {
     }
 
     actions.setSubmitting(false)
-    router.push(`${storeName}/checkout-done`)
+    router.push(`${name}/checkout-done`)
   }
 
   return (

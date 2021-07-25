@@ -8,8 +8,9 @@ export default class LocalDeleteProductsOfCart implements DeleteProductOfCart {
     this.storage = storage
   }
 
-  async deleteProductOfCart(id: number): Promise<DeleteProductOfCartResult> {
-    const json = this.storage.get('cart')
+  async deleteProductOfCart(id: number, storeName?: string): Promise<DeleteProductOfCartResult> {
+    const key = `cart-${storeName}`
+    const json = this.storage.get(key)
 
     let cart: DeleteProductOfCartResult = {
       products: [],
@@ -30,7 +31,7 @@ export default class LocalDeleteProductsOfCart implements DeleteProductOfCart {
     })
 
     cart.products.splice(index, 1)
-    this.storage.set('cart', JSON.stringify(cart))
+    this.storage.set(key, JSON.stringify(cart))
 
     return cart
   }

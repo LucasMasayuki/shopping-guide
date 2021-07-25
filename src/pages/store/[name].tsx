@@ -9,8 +9,9 @@ import Layout from '@/src/ui/components/layout'
 import makeRemoteGetAllStores from '@/src/main/usecases/remote-get-all-stores-factory'
 import { OrderBy } from '@/src/domain/usecases/get-all-stores'
 import { CartStateProvider } from '@/src/ui/contexts-providers/store/cart-provider'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import StoreView from '@/src/ui/page-components/store/store-view'
+import { CircularProgress } from '@chakra-ui/react'
 import Dummies from '../../dummies/stores-list-dummy.json'
 
 type Props = {
@@ -43,6 +44,20 @@ type StaticProps = {
 // eslint-disable-next-line no-unused-vars
 const StorePage = ({ store, errorCode }: Props): JSX.Element => {
   const router = useRouter()
+  const [storeName, setStoreName] = useState('')
+
+  useEffect(() => {
+    if (router.isReady) {
+      let { name } = router.query
+
+      if (Array.isArray(name)) {
+        // eslint-disable-next-line prefer-destructuring
+        name = name[0]
+      }
+
+      setStoreName(name ?? '')
+    }
+  }, [setStoreName, router])
 
   if (!router.isFallback && errorCode) {
     return <ErrorPage statusCode={errorCode} />
@@ -50,14 +65,18 @@ const StorePage = ({ store, errorCode }: Props): JSX.Element => {
 
   return (
     <>
-      <CartStateProvider>
-        <Layout>
-          <Head>
-            <title>{store?.name}</title>
-          </Head>
-          <StoreView store={store} />
-        </Layout>
-      </CartStateProvider>
+      {storeName === '' ? (
+        <CircularProgress />
+      ) : (
+        <CartStateProvider>
+          <Layout>
+            <Head>
+              <title>{store?.name}</title>
+            </Head>
+            <StoreView store={store} />
+          </Layout>
+        </CartStateProvider>
+      )}
     </>
   )
 }

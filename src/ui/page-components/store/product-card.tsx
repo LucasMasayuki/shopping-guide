@@ -1,8 +1,9 @@
 import React from 'react'
 import { Box, Grid, Image, useDisclosure } from '@chakra-ui/react'
 import { Product } from '@/src/domain/models/product-model'
-import { currency } from '@/src/utils/utiltiies-functions'
+import { currency, getCartTotal } from '@/src/utils/utiltiies-functions'
 import makeLocalAddProductToCart from '@/src/main/usecases/local-add-product-to-cart-factory'
+import { useRouter } from 'next/router'
 import MoreDetailsProductModal from './more-details-product-modal'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
 
@@ -13,10 +14,18 @@ type Props = {
 const ProductCard = ({ product }: Props): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { setCart } = useCartState()
+  const router = useRouter()
+  let { name } = router.query
 
   const onAddToCart = async (toAddProduct: Product): Promise<void> => {
-    const cart = await makeLocalAddProductToCart().addProductToCart(toAddProduct)
-    setCart({ ...cart })
+    if (Array.isArray(name)) {
+      // eslint-disable-next-line prefer-destructuring
+      name = name[0]
+    }
+
+    const cart = await makeLocalAddProductToCart().addProductToCart(toAddProduct, name ?? '')
+    setCart({ ...cart, total: getCartTotal(cart) })
+
     onClose()
   }
 

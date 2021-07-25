@@ -20,13 +20,13 @@ import EmptyCartView from './empty-cart-view'
 type Props = {
   onClose: () => void
   isOpen: boolean
-  storeName: string
 }
 
-const CartDrawer = ({ onClose, isOpen, storeName }: Props): JSX.Element => {
+const CartDrawer = ({ onClose, isOpen }: Props): JSX.Element => {
   const { cart } = useCartState()
 
   const router = useRouter()
+  const { name } = router.query
 
   return (
     <Drawer size="sm" isOpen={isOpen} placement="right" onClose={onClose}>
@@ -58,7 +58,7 @@ const CartDrawer = ({ onClose, isOpen, storeName }: Props): JSX.Element => {
             w="100%"
             disabled={cart.products.length === 0}
             _hover={{ bgColor: 'secondaryColor' }}
-            onClick={() => router.push(`${storeName}/checkout`)}
+            onClick={() => router.push(`${name}/checkout`)}
           >
             Finalizar a compra
           </AppButton>

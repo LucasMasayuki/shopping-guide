@@ -3,15 +3,16 @@ import { AddProductToCart, AddProductToCartResult } from '@/src/domain/usecases/
 import LocalStorage from '@/src/infra/cache/local-storage'
 import { getCartTotal } from '@/src/utils/utiltiies-functions'
 
-export default class LocalAddProductTocart implements AddProductToCart {
+export default class LocalAddProductToCart implements AddProductToCart {
   private readonly storage: LocalStorage
 
   constructor(storage: LocalStorage) {
     this.storage = storage
   }
 
-  async addProductToCart(product: Product): Promise<AddProductToCartResult> {
-    const json = this.storage.get('cart')
+  async addProductToCart(product: Product, storeName?: string): Promise<AddProductToCartResult> {
+    const key = `cart-${storeName}`
+    const json = this.storage.get(key)
     let cart: AddProductToCartResult = {
       products: [],
       total: 0,
@@ -33,14 +34,14 @@ export default class LocalAddProductTocart implements AddProductToCart {
       return productInCart
     })
 
-    const total = getCartTotal(cart)
-    cart.total = total
-
     if (!alreadyHasProductInCart) {
       cart.products.push(product)
     }
 
-    this.storage.set('cart', JSON.stringify(cart))
+    const total = getCartTotal(cart)
+    cart.total = total
+
+    this.storage.set(key, JSON.stringify(cart))
 
     return cart
   }

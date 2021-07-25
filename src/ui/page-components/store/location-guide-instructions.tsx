@@ -1,23 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { LocationGuide } from '@/src/domain/models/location-guide-model'
 import makeRemoteGetLocationGuide from '@/src/main/usecases/remote-get-location-guide-factory'
-import { Box, Text, Image, Grid, Heading } from '@chakra-ui/react'
+import { Box, Text, Image, Grid, Heading, CircularProgress } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Dummy from '../../../dummies/location-guide-dummy.json'
 
 const LocationGuideInstructions = (): JSX.Element => {
   const router = useRouter()
-  const { storeName } = router.query
+  const { name } = router.query
   const [locationGuide, setLocationGuide] = useState({} as LocationGuide)
 
   useEffect(() => {
-    // if (!storeName) {
-    //   return
-    // }
-
-    // let name = storeName
-
     // if (Array.isArray(name)) {
     //   // eslint-disable-next-line prefer-destructuring
     //   name = storeName[0]
@@ -30,12 +24,12 @@ const LocationGuideInstructions = (): JSX.Element => {
     //   .then((remoteLocationGuide: LocationGuide) => {
     //     setLocationGuide(remoteLocationGuide)
     //   })
-  }, [setLocationGuide, storeName])
+  }, [setLocationGuide, name])
 
   return (
     <Box textAlign="center">
       <Text fontSize="2xl" fontWeight="bold" mt="4" mb="4">
-        Como chegar na loja {storeName}
+        Como chegar na loja {name}
       </Text>
       <Grid gridTemplateColumns="auto auto" gap="2" alignItems="center">
         <Box p="4" h="350">

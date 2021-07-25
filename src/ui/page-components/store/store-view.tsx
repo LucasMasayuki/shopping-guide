@@ -10,6 +10,7 @@ import { groupBy } from '@/src/utils/utiltiies-functions'
 import makeLocalGetCart from '@/src/main/usecases/local-get-cart-factory'
 import { Cart } from '@/src/domain/models/cart-model'
 import { useCartState } from '@/src/ui/contexts-providers/store/cart-provider'
+import { useRouter } from 'next/router'
 import LocationGuideInstructions from './location-guide-instructions'
 
 type Props = {
@@ -19,10 +20,17 @@ type Props = {
 // eslint-disable-next-line no-unused-vars
 const StoreView = ({ store }: Props): JSX.Element => {
   const { setCart } = useCartState()
+  const router = useRouter()
+  let { name } = router.query
 
   useEffect(() => {
+    if (Array.isArray(name)) {
+      // eslint-disable-next-line prefer-destructuring
+      name = name[0]
+    }
+
     makeLocalGetCart()
-      .getCart()
+      .getCart(name ?? '')
       .then((localCart: Cart) => {
         setCart(localCart)
       })
@@ -33,7 +41,7 @@ const StoreView = ({ store }: Props): JSX.Element => {
 
   return (
     <>
-      <AppBar drawerElement={<CartIcon storeName={store?.name ?? ''} />} />
+      <AppBar drawerElement={<CartIcon />} />
       <Box
         backgroundImage={store?.photo ?? ''}
         backgroundRepeat="no-repeat"

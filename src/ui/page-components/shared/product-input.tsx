@@ -3,6 +3,7 @@ import makeLocalDeleteProductOfCart from '@/src/main/usecases/local-delete-produ
 import { currency, getCartTotal } from '@/src/utils/utiltiies-functions'
 import { CloseIcon, MinusIcon } from '@chakra-ui/icons'
 import { Box, Grid, IconButton, Image, Text } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
@@ -14,6 +15,8 @@ type Props = {
 
 const ProductInput = ({ product, cartIndex }: Props): JSX.Element => {
   const { cart, setCart } = useCartState()
+  const router = useRouter()
+  let { name } = router.query
 
   const getPrice = (): string => {
     return currency(product.quantity * product.price)
@@ -32,7 +35,12 @@ const ProductInput = ({ product, cartIndex }: Props): JSX.Element => {
   }
 
   const onDeleteProduct = (id: number, index: number): void => {
-    makeLocalDeleteProductOfCart().deleteProductOfCart(id)
+    if (Array.isArray(name)) {
+      // eslint-disable-next-line prefer-destructuring
+      name = name[0]
+    }
+
+    makeLocalDeleteProductOfCart().deleteProductOfCart(id, name ?? '')
     cart.products.splice(index, 1)
     cart.total = getCartTotal(cart)
     setCart({ ...cart })
