@@ -36,7 +36,7 @@ const LocationGuideInstructions = (): JSX.Element => {
           <Image
             borderRadius="30"
             loading="lazy"
-            h="350"
+            h="300"
             src="https://boulevardcampos.com.br/data/files/32/B5/B9/DD/9F2F561014142B5653DBF9C2/mapa_campos2018.jpg"
           />
         </Box>
