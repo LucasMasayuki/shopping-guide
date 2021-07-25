@@ -13,9 +13,16 @@ const CheckoutView = (): JSX.Element => {
 
   return (
     <>
-      <Box backgroundColor="gray" display="grid" alignItems="center" justifyItems="center" textAlign="center">
+      <Box
+        backgroundColor="gray"
+        h={auth.cpf === undefined ? '100vh' : 'inherit'}
+        display="grid"
+        alignItems="center"
+        justifyItems="center"
+        textAlign="center"
+      >
         <Box />
-        {!auth ? (
+        {auth.cpf === undefined ? (
           <SigninSignupStateProvider>
             <AuthBox />
           </SigninSignupStateProvider>
