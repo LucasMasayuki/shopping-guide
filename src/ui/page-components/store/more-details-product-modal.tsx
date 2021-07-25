@@ -3,7 +3,6 @@ import { currency } from '@/src/utils/utiltiies-functions'
 import { MinusIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,10 +13,10 @@ import {
   Text,
   Grid,
   IconButton,
-  Input,
 } from '@chakra-ui/react'
 import React from 'react'
 import { FaPlus } from 'react-icons/fa'
+import AppButton from '../shared/app-button'
 
 type Props = {
   isOpen: boolean
@@ -94,9 +93,9 @@ const MoreDetailsProductModal = ({ isOpen, onClose, product, onAddToCart }: Prop
                 borderLeft="1px solid lightgray"
               />
             </Grid>
-            <Button bgColor="secondaryColor" color="white" onClick={onAdd}>
+            <AppButton _hover={{ bgColor: 'secondaryColor' }} w="unset" onClick={onAdd}>
               Adicionar {getPrice()}
-            </Button>
+            </AppButton>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box, Button, Heading, Text } from '@chakra-ui/react'
+import { Box, Heading, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
+import AppButton from '../shared/app-button'
 
 const CheckoutDoneBox = (): JSX.Element => {
   const router = useRouter()
@@ -18,9 +19,9 @@ const CheckoutDoneBox = (): JSX.Element => {
           <Text fontSize="xl" mb="10">
             Muito obrigado pela preferẽncia
           </Text>
-          <Button bgColor="secondaryColor" borderRadius="30" color="white" onClick={() => router.push('/')}>
+          <AppButton _hover={{ bgColor: 'secondaryColor' }} onClick={() => router.push('/')}>
             Retornar para o menu principal
-          </Button>
+          </AppButton>
         </Box>
       </Box>
     </>

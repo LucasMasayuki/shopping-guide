@@ -12,7 +12,11 @@ const config: ColorModeOptions = {
 }
 
 // 3. extend the theme
-const customTheme = extendTheme({ colors, theme, config })
+const customTheme = extendTheme({
+  colors,
+  theme,
+  config,
+})
 
 // eslint-disable-next-line react/prop-types
 const ThemeContainer: React.FC = ({ children }) => (

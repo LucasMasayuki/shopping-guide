@@ -7,6 +7,7 @@ import { cpfMask, isValidCpf } from '@/src/utils/utiltiies-functions'
 import makeRemoteSignup from '@/src/main/usecases/remote-signup-factory'
 import { useSigninSignupState } from '../../contexts-providers/store/signin-signup-provider'
 import { useAuthState } from '../../contexts-providers/store/auth-provider'
+import AppButton from '../shared/app-button'
 
 type SignupForm = { email: string; birthdate: string; name: string; document: string; interests: string }
 
@@ -83,7 +84,7 @@ const Signup = (): JSX.Element => {
         {(props) => (
           <Form>
             <Heading fontSize="2xl">Cadastro</Heading>
-            <Grid gridTemplateColumns="auto auto" gap="3" mt="10">
+            <Grid gridTemplateColumns="auto auto" gap="3" mt="10" mb="4">
               <Field name="name" validate={validateName}>
                 {({ field, form }: FieldProps) => (
                   <FormControl isInvalid={form.errors.name !== undefined} isRequired>
@@ -135,19 +136,28 @@ const Signup = (): JSX.Element => {
                 )}
               </Field>
             </Grid>
-            <Button mt={6} bgColor="white" color="black" onClick={() => setIsSigninScreen(true)} borderRadius="30">
-              Voltar
-            </Button>
-            <Button
-              mt={4}
-              bgColor="secondaryColor"
-              color="white"
-              isLoading={props.isSubmitting}
-              type="submit"
-              borderRadius="30"
-            >
-              Entrar
-            </Button>
+            <Grid gridTemplateColumns="auto auto" gap="2" justifyItems="center" alignItems="center">
+              <Button
+                mt={6}
+                w="100%"
+                bgColor="white"
+                border="1px solid lightgray"
+                color="black"
+                onClick={() => setIsSigninScreen(true)}
+                borderRadius="30"
+              >
+                Voltar
+              </Button>
+              <AppButton
+                mt={4}
+                w="100%"
+                _hover={{ bgColor: 'secondaryColor' }}
+                isLoading={props.isSubmitting}
+                type="submit"
+              >
+                Entrar
+              </AppButton>
+            </Grid>
           </Form>
         )}
       </Formik>

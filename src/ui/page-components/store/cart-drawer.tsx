@@ -1,7 +1,6 @@
 import { currency } from '@/src/utils/utiltiies-functions'
 import {
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -14,7 +13,9 @@ import {
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
+import AppButton from '../shared/app-button'
 import ProductInput from '../shared/product-input'
+import EmptyCartView from './empty-cart-view'
 
 type Props = {
   onClose: () => void
@@ -38,9 +39,13 @@ const CartDrawer = ({ onClose, isOpen, storeName }: Props): JSX.Element => {
 
         <DrawerBody overflow="auto">
           <Box mt="5">
-            {cart.products.map((product, index) => (
-              <ProductInput key={product.id} product={product} cartIndex={index} />
-            ))}
+            {cart.products.length === 0 ? (
+              <EmptyCartView />
+            ) : (
+              cart.products.map((product, index) => (
+                <ProductInput key={product.id} product={product} cartIndex={index} />
+              ))
+            )}
           </Box>
         </DrawerBody>
 
@@ -49,16 +54,14 @@ const CartDrawer = ({ onClose, isOpen, storeName }: Props): JSX.Element => {
             <Text fontWeight="bold">Total: </Text>
             <Text fontWeight="bold">{currency(cart.total)}</Text>
           </Box>
-          <Button
+          <AppButton
             w="100%"
-            bgColor="secondaryColor"
-            color="white"
-            borderRadius="30"
-            justifySelf="flex-end"
+            disabled={cart.products.length === 0}
+            _hover={{ bgColor: 'secondaryColor' }}
             onClick={() => router.push(`${storeName}/checkout`)}
           >
             Finalizar a compra
-          </Button>
+          </AppButton>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

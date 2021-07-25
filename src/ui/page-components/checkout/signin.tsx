@@ -7,6 +7,7 @@ import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Text, use
 import makeRemoteSignin from '@/src/main/usecases/remote-signin-factory'
 import { useSigninSignupState } from '../../contexts-providers/store/signin-signup-provider'
 import { useAuthState } from '../../contexts-providers/store/auth-provider'
+import AppButton from '../shared/app-button'
 
 type SigninForm = { email: string }
 
@@ -65,16 +66,15 @@ const Signin = (): JSX.Element => {
                 )}
               </Field>
             </Box>
-            <Button
+            <AppButton
               mb={5}
-              color="white"
-              bgColor="secondaryColor"
+              w="100%"
+              _hover={{ bgColor: 'secondaryColor' }}
               isLoading={props.isSubmitting}
               type="submit"
-              borderRadius="30"
             >
               Entrar
-            </Button>
+            </AppButton>
             <Text fontSize="sm" textAlign="center">
               Não possui cadastro ?
             </Text>

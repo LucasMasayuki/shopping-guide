@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Box, Button, Grid, Heading, useToast } from '@chakra-ui/react'
+import { Box, Grid, Heading, useToast } from '@chakra-ui/react'
 import makeLocalGetCart from '@/src/main/usecases/local-get-cart-factory'
 import { Cart } from '@/src/domain/models/cart-model'
 import { currency } from '@/src/utils/utiltiies-functions'
@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
 import ProductInput from '../shared/product-input'
 import PaymentForm from './payment-form'
+import AppButton from '../shared/app-button'
 
 export type PaymentFormFields = {
   expireDate: string
@@ -87,15 +88,9 @@ const ConfirmOrder = (): JSX.Element => {
                   </Box>
                 </Box>
               </Grid>
-              <Button
-                bgColor="secondaryColor"
-                color="white"
-                borderRadius="30"
-                float="right"
-                isLoading={props.isSubmitting}
-              >
+              <AppButton _hover={{ bgColor: 'secondaryColor' }} float="right" isLoading={props.isSubmitting}>
                 Confirmar
-              </Button>
+              </AppButton>
             </Box>
           )}
         </Formik>
