@@ -4,6 +4,8 @@ import React from 'react'
 import { extendTheme, ChakraProvider, CSSReset, ColorModeOptions } from '@chakra-ui/react'
 import theme from './theme'
 import colors from './colors'
+import { Text } from './fonts'
+import { Button } from './components'
 
 // 2. declare your configuration, these are the defaults
 const config: ColorModeOptions = {
@@ -16,6 +18,10 @@ const customTheme = extendTheme({
   colors,
   theme,
   config,
+  components: {
+    Text,
+    Button,
+  },
 })
 
 // eslint-disable-next-line react/prop-types

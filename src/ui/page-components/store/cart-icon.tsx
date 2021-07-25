@@ -15,7 +15,7 @@ const CartIcon = (): JSX.Element => {
       <Icon as={FaShoppingCart} fontSize="3xl" />
       <Box
         position="absolute"
-        background="red"
+        background="secondaryColor"
         borderRadius="30"
         width="15px"
         height="15px"

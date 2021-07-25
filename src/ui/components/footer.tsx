@@ -12,7 +12,9 @@ const Footer = (): JSX.Element => (
         </Heading>
         <Grid templateColumns="repeat(5, 1fr)">
           <GridItem colStart={6} colEnd={6}>
-            <Text fontSize="xs">Created by Lucas Masayuki</Text>
+            <Text color="white" fontSize="xs">
+              Created by Lucas Masayuki
+            </Text>
           </GridItem>
           <GridItem colStart={6} colEnd={6} textAlign="right">
             <Link href="https://github.com/LucasMasayuki" isExternal>

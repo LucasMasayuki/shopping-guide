@@ -79,8 +79,9 @@ const ConfirmOrder = (): JSX.Element => {
         >
           {(props) => (
             <Form>
-              <Grid gridTemplateColumns="45% auto" gap="10" mb="5">
+              <Grid gridTemplateColumns="45% 5% auto" gap="10" mb="5">
                 <PaymentForm />
+                <Box w="0.5" h="400" border="1px solid lightgray" borderStyle="dotted" />
                 <Box>
                   <Heading fontSize="2xl">Confira seus produtos</Heading>
                   <Box bgColor="white" p="8" borderRadius="8" overflow="auto" h="sm">

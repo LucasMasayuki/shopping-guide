@@ -7,8 +7,8 @@ const badgeColors = {
 
 const colors = {
   secondaryDarkColor: '#011627',
-  primaryColor: '#8E2DE2',
-  secondaryColor: 'red',
+  primaryColor: '#6200EE',
+  secondaryColor: '#DF7B07',
   ...badgeColors,
 }
 
