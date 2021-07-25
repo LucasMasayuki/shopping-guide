@@ -1,0 +1,10 @@
+{
+    "localization": "0012",
+    "hall": "Corredor 0104",
+    "bloc": "Bloco 0104",
+    "floor": "Primeiro andar",
+    "stairs": ["es010400", "es010100"],
+    "nearestLadder": "es010400",
+    "path": "Vire na primeira esquerda e suba a escada rolante, no primeiro andar vire na 04 direita",
+    "pathM": "Vire na segunda esquerda e vá até o elevador, no primeiro andar vire na 04 direita"
+}

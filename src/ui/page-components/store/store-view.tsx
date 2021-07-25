@@ -10,6 +10,7 @@ import { groupBy } from '@/src/utils/utiltiies-functions'
 import makeLocalGetCart from '@/src/main/usecases/local-get-cart-factory'
 import { Cart } from '@/src/domain/models/cart-model'
 import { useCartState } from '@/src/ui/contexts-providers/store/cart-provider'
+import LocationGuideInstructions from './location-guide-instructions'
 
 type Props = {
   store: Store | null
@@ -38,15 +39,15 @@ const StoreView = ({ store }: Props): JSX.Element => {
         backgroundRepeat="no-repeat"
         backgroundSize="100%"
         d="grid"
-        h="md"
+        h="xl"
         pl="16"
         pr="16"
         alignItems="center"
         justifyItems="center"
         mt="72px"
       >
-        <Box backgroundColor="white" w="80%" h="200" borderRadius="10">
-          <Box />
+        <Box backgroundColor="white" w="80%" h="450" borderRadius="10">
+          <LocationGuideInstructions />
         </Box>
       </Box>
       <Box p="16" top="-10" borderRadius="30" background="white" position="relative">
