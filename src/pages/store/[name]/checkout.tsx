@@ -19,7 +19,7 @@ const Checkout = (): JSX.Element => {
           <Head>
             <title>{name}</title>
           </Head>
-          <AppBar />
+          <AppBar showBackButton />
           <CheckoutView />
         </Layout>
       </AuthStateProvider>
