@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect } from 'react'
 
 import { Box, Grid, Heading, useToast } from '@chakra-ui/react'
 import makeLocalGetCart from '@/src/main/usecases/local-get-cart-factory'
 import { Cart } from '@/src/domain/models/cart-model'
 import { currency } from '@/src/utils/utiltiies-functions'
-import { Formik, FormikHelpers } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import makeRemotePurchase from '@/src/main/usecases/remote-purchase-factory'
 import { useRouter } from 'next/router'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
@@ -52,21 +53,21 @@ const ConfirmOrder = (): JSX.Element => {
       takeoutPayment: values.takeoutPayment !== '' ? values.takeoutPayment : null,
     }
 
-    try {
-      makeRemotePurchase().purchase(purchaseParams)
-    } catch (e) {
-      toast({
-        title: `${e}`,
-        status: 'error',
-        isClosable: true,
-      })
+    // try {
+    //   makeRemotePurchase().purchase(purchaseParams)
+    // } catch (e) {
+    //   toast({
+    //     title: `${e}`,
+    //     status: 'error',
+    //     isClosable: true,
+    //   })
 
-      actions.setSubmitting(false)
-      return
-    }
+    //   actions.setSubmitting(false)
+    //   return
+    // }
 
     actions.setSubmitting(false)
-    router.push(`${name}/checkout-done`)
+    router.push({ pathname: 'checkout-done', query: { name } })
   }
 
   return (
@@ -77,7 +78,7 @@ const ConfirmOrder = (): JSX.Element => {
           onSubmit={(values, actions) => onSubmit(values, actions)}
         >
           {(props) => (
-            <Box>
+            <Form>
               <Grid gridTemplateColumns="45% auto" gap="10" mb="5">
                 <PaymentForm />
                 <Box>
@@ -93,10 +94,15 @@ const ConfirmOrder = (): JSX.Element => {
                   </Box>
                 </Box>
               </Grid>
-              <AppButton _hover={{ bgColor: 'secondaryColor' }} float="right" isLoading={props.isSubmitting}>
+              <AppButton
+                _hover={{ bgColor: 'secondaryColor' }}
+                float="right"
+                isLoading={props.isSubmitting}
+                type="submit"
+              >
                 Confirmar
               </AppButton>
-            </Box>
+            </Form>
           )}
         </Formik>
       </Box>

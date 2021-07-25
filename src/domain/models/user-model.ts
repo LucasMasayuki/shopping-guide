@@ -3,9 +3,7 @@ export type User = {
 
   cpf: string
 
-  photo: string | null
-
-  birthdate: Date
+  birthdate: string
 
   email: string
 

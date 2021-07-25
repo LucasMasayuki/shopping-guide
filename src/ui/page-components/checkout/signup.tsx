@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik'
 import validator from 'validator'
@@ -59,16 +60,24 @@ const Signup = (): JSX.Element => {
 
   const onSubmit = async (values: SignupForm, actions: FormikHelpers<SignupForm>): Promise<void> => {
     let user = null
-    try {
-      user = await makeRemoteSignup().register(values)
-    } catch (e) {
-      toast({
-        title: `${e}`,
-        status: 'error',
-        isClosable: true,
-      })
-      actions.setSubmitting(false)
-      return
+    // try {
+    //   user = await makeRemoteSignup().register(values)
+    // } catch (e) {
+    //   toast({
+    //     title: `${e}`,
+    //     status: 'error',
+    //     isClosable: true,
+    //   })
+    //   actions.setSubmitting(false)
+    //   return
+    // }
+
+    user = {
+      cpf: 'test',
+      name: 'test',
+      birthdate: 'test',
+      email: 'test',
+      interest: 'test',
     }
 
     setAuth(user)

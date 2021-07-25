@@ -28,16 +28,24 @@ const Signin = (): JSX.Element => {
 
   const onSubmit = async (values: SigninForm, actions: FormikHelpers<SigninForm>): Promise<void> => {
     let user = null
-    try {
-      user = await makeRemoteSignin().login(values.email)
-    } catch (e) {
-      toast({
-        title: `${e}`,
-        status: 'error',
-        isClosable: true,
-      })
-      actions.setSubmitting(false)
-      return
+    // try {
+    //   user = await makeRemoteSignin().login(values.email)
+    // } catch (e) {
+    //   toast({
+    //     title: `${e}`,
+    //     status: 'error',
+    //     isClosable: true,
+    //   })
+    //   actions.setSubmitting(false)
+    //   return
+    // }
+
+    user = {
+      cpf: 'test',
+      name: 'test',
+      birthdate: 'test',
+      email: 'test',
+      interest: 'test',
     }
 
     setAuth(user)
