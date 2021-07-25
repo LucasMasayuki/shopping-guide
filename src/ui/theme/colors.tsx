@@ -1,5 +1,8 @@
 const badgeColors = {
-  geral: '#235a97',
+  supermercado: '#235a97',
+  saúde: '#C30B15',
+  livraria: '#FF6300',
+  pets: '#398439',
 }
 
 const colors = {
