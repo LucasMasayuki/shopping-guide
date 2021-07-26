@@ -3,7 +3,7 @@ import React from 'react'
 import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik'
 import validator from 'validator'
 
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Text, useToast } from '@chakra-ui/react'
+import { Box, FormControl, FormErrorMessage, FormLabel, Input, Text, useToast } from '@chakra-ui/react'
 import makeRemoteSignin from '@/src/main/usecases/remote-signin-factory'
 import { useSigninSignupState } from '../../contexts-providers/store/signin-signup-provider'
 import { useAuthState } from '../../contexts-providers/store/auth-provider'
@@ -40,11 +40,14 @@ const Signin = (): JSX.Element => {
       return
     }
 
+    console.log(user)
+
     if (user.about) {
       console.log('Usuario logado')
       console.log(user)
 
       setAuth(user.about)
+      localStorage.setItem('auth', JSON.stringify(user))
     } else {
       toast({
         title: 'Você não está cadastrado, por favor se cadastre antes de concluir a compra',

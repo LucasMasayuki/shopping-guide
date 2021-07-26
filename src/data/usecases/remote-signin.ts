@@ -10,9 +10,9 @@ import { HttpClient } from '../protocols/http/http-client'
 export default class RemoteSignin implements Signin {
   private readonly url: string
 
-  private readonly httpClient: HttpClient<User>
+  private readonly httpClient: HttpClient<any>
 
-  constructor(url: string, httpClient: HttpClient<User>) {
+  constructor(url: string, httpClient: HttpClient<any>) {
     this.url = url
     this.httpClient = httpClient
   }

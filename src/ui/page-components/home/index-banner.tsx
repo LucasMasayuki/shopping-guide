@@ -31,7 +31,7 @@ const IndexBanner = (): JSX.Element => {
       justifyItems="center"
     >
       <Input placeholder="Encontre sua loja" size="lg" background="white" onBlur={onBlur} />
-      <Box>
+      <Box textShadow="-1px 0 lightgrey, 0 1px lightgrey, 1px 0 lightgrey, 0 -1px lightgrey">
         <Heading as="h1" color="white" fontWeight="bold">
           Seja bem vindo,
         </Heading>

@@ -18,7 +18,7 @@ export default class RemoteGetAllStores implements GetAllStores {
 
   async getAllStores(orderBy: OrderBy): Promise<GetStoresResult> {
     const httpResponse = await this.httpClient.request({
-      url: `${this.url}?orderBy=${orderBy}`,
+      url: `${this.url}?orderby=${orderBy}`,
       method: HttpMethods.GET,
     })
 

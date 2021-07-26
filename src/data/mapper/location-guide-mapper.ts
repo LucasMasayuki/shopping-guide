@@ -9,7 +9,7 @@ const LocationGuideMapper = (body: any): LocationGuide => {
     floor: body.andar,
     bloc: body.bloco,
     stairs: body.escadas,
-    nearestLadder: body.escadas,
+    nearestLadder: body['es-prox'],
     path: body.caminho,
     pathM: body.caminhoM,
   }

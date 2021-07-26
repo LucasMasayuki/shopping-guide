@@ -79,6 +79,7 @@ const ConfirmOrder = (): JSX.Element => {
     }
 
     actions.setSubmitting(false)
+    localStorage.clear()
     router.push({ pathname: 'checkout-done', query: { name } })
   }
 
@@ -96,7 +97,7 @@ const ConfirmOrder = (): JSX.Element => {
                 <Box w="0.5" h="400" border="1px solid lightgray" borderStyle="dotted" />
                 <Box>
                   <Heading fontSize="2xl">Confira seus produtos</Heading>
-                  <Box bgColor="white" p="8" borderRadius="8" overflow="auto" h="sm">
+                  <Box bgColor="white" p="8" borderRadius="8" overflow="auto" h="330">
                     {cart.products.map((product, index) => (
                       <ProductInput key={product.id} product={product} cartIndex={index} />
                     ))}

@@ -14,7 +14,9 @@ const PaymentForm = (): JSX.Element => {
   return (
     <>
       <Box>
-        <Heading fontSize="2xl">Pagamento na retirada</Heading>
+        <Heading fontSize="2xl" mb="10">
+          Pagamento na retirada
+        </Heading>
         {/* <Heading fontSize="2xl">Forma de pagamento</Heading> */}
         {/* <Box mt="8" mb="8">
           <RadioGroup onChange={setPaymentForm} value={paymentForm}>

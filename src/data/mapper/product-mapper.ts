@@ -11,7 +11,7 @@ const ProductMapper = (body: any): Product => {
     price: body.preco ?? body.valor,
     photo: body.pictureURI,
     category: body.categoria,
-    inStock: 10,
+    inStock: body.quantidadeEstoque ?? body.quantidadeCarrinho,
     quantity: body.quantidadeCarrinho ?? 0,
   }
 }

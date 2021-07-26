@@ -25,11 +25,7 @@ export default class RemotePurchase implements Purchase {
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.OK: {
-        if (httpResponse.body) {
-          return
-        }
-
-        throw new UnexpectedError(httpResponse.statusCode)
+        return
       }
 
       case HttpStatusCode.UNAUTHORIZED:

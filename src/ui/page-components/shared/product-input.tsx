@@ -93,7 +93,7 @@ const ProductInput = ({ product, cartIndex }: Props): JSX.Element => {
             size="xs"
             icon={<FaPlus />}
           />
-          <Text fontSize="12px" isTruncated noofline={1}>
+          <Text fontSize="12px" isTruncated noofline={1} w="100%">
             {product.name}
           </Text>
           <Text fontSize="14px" fontWeight="bold" float="right">
