@@ -3,6 +3,7 @@ import { Creditcard } from '../models/creditcard-model'
 
 export type PurchaseParam = {
   cart: Cart
+  aboutUser: string
   creditcard: Creditcard | null
   takeoutPayment: string | null
 }

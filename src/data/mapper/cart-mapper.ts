@@ -6,7 +6,7 @@ import ProductMapper from './product-mapper'
 const CartMapper = (body: any): Cart => {
   return {
     about: body.aboutCarrinho,
-    products: body.aboutProdutos.map((produtos: any) => {
+    products: body.itensCarrinho.map((produtos: any) => {
       return ProductMapper(produtos)
     }),
     total: body.valorTotal,

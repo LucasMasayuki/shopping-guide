@@ -10,7 +10,7 @@ const TakeoutPaymentForm = (): JSX.Element => {
     <>
       <Field name="takeoutPayment">
         {({ field, form }: FieldProps) => (
-          <FormControl isInvalid={form.errors.fullName !== undefined} isRequired>
+          <FormControl isInvalid={form.errors.takeoutPayment !== undefined} isRequired>
             <FormLabel htmlFor="takeoutPayment">Método de pagamento</FormLabel>
             <Select {...field} id="takeoutPayment" placeholder="Selecione um método">
               {takeoutPaymentList.map((takeoutPayment) => (

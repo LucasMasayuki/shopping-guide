@@ -11,6 +11,8 @@ const IndexBanner = (): JSX.Element => {
 
     if (currentTarget) {
       const stores = await makeRemoteSearchStoreByName().search((currentTarget as HTMLInputElement).value)
+      console.log('Lojas encontradas')
+      console.log(stores)
       setStores(stores)
     }
   }

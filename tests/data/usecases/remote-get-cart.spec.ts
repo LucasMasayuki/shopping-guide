@@ -51,7 +51,7 @@ describe('RemoteGetStore', () => {
       body: expectedResponse,
     }
 
-    await sut.getCart()
+    await sut.getCart('')
 
     expect(httpClientSpy.url).toBe(`${url}`)
     expect(httpClientSpy.method).toBe(HttpMethods.GET)
@@ -63,7 +63,7 @@ describe('RemoteGetStore', () => {
       statusCode: HttpStatusCode.UNAUTHORIZED,
     }
 
-    const promise = sut.getCart()
+    const promise = sut.getCart('')
 
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
@@ -74,7 +74,7 @@ describe('RemoteGetStore', () => {
       statusCode: HttpStatusCode.BAD_REQUEST,
     }
 
-    const promise = sut.getCart()
+    const promise = sut.getCart('')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -85,7 +85,7 @@ describe('RemoteGetStore', () => {
       statusCode: HttpStatusCode.ERROR,
     }
 
-    const promise = sut.getCart()
+    const promise = sut.getCart('')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -96,7 +96,7 @@ describe('RemoteGetStore', () => {
       statusCode: HttpStatusCode.NOT_FOUND,
     }
 
-    const promise = sut.getCart()
+    const promise = sut.getCart('')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -109,7 +109,7 @@ describe('RemoteGetStore', () => {
       body: undefined,
     }
 
-    const promise = sut.getCart()
+    const promise = sut.getCart('')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -140,7 +140,7 @@ describe('RemoteGetStore', () => {
       body: expectedResponse,
     }
 
-    const store = await sut.getCart()
+    const store = await sut.getCart('')
 
     expect(store).toEqual(expectedResponse)
   })

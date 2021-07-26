@@ -25,6 +25,7 @@ export default class RemoteProductAddToCart implements AddProductToCart {
       method: HttpMethods.POST,
       body: CartToApiMapper(product, aboutCart),
     })
+    console.log(httpResponse)
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.OK: {

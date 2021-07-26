@@ -13,7 +13,7 @@ import AppButton from '../shared/app-button'
 type SignupForm = { email: string; birthdate: string; name: string; document: string; interests: string }
 
 const Signup = (): JSX.Element => {
-  const { setAuth } = useAuthState()
+  const { auth, setAuth } = useAuthState()
   const { setIsSigninScreen } = useSigninSignupState()
   const [cpf, setCpf] = useState('')
   const toast = useToast()
@@ -21,7 +21,7 @@ const Signup = (): JSX.Element => {
   const validateEmail = (email: string): string => {
     let error = ''
 
-    if (validator.isEmail(email)) {
+    if (!validator.isEmail(email)) {
       error = 'Insira um email válido'
     }
 
@@ -41,7 +41,7 @@ const Signup = (): JSX.Element => {
   const validateDocument = (document: string): string => {
     let error = ''
 
-    if (isValidCpf(document)) {
+    if (!isValidCpf(cpf)) {
       error = 'Insira um cpf válido'
     }
 
@@ -59,28 +59,34 @@ const Signup = (): JSX.Element => {
   }
 
   const onSubmit = async (values: SignupForm, actions: FormikHelpers<SignupForm>): Promise<void> => {
-    let user = null
-    // try {
-    //   user = await makeRemoteSignup().register(values)
-    // } catch (e) {
-    //   toast({
-    //     title: `${e}`,
-    //     status: 'error',
-    //     isClosable: true,
-    //   })
-    //   actions.setSubmitting(false)
-    //   return
-    // }
-
-    user = {
-      cpf: 'test',
-      name: 'test',
-      birthdate: 'test',
-      email: 'test',
-      interest: 'test',
+    console.log(values)
+    let aboutUser
+    try {
+      aboutUser = await makeRemoteSignup().register(values)
+    } catch (e) {
+      toast({
+        title: `${e}`,
+        status: 'error',
+        isClosable: true,
+      })
+      actions.setSubmitting(false)
+      return
     }
 
-    setAuth(user)
+    if (aboutUser) {
+      console.log('Usuario logado')
+      console.log(aboutUser)
+
+      setAuth(aboutUser)
+      console.log(auth)
+    } else {
+      toast({
+        title: 'Algo deu errado, por favor tente novamente',
+        status: 'error',
+        isClosable: true,
+      })
+    }
+
     actions.setSubmitting(false)
   }
 
@@ -96,7 +102,7 @@ const Signup = (): JSX.Element => {
             <Grid gridTemplateColumns="auto auto" gap="3" mt="10" mb="4">
               <Field name="name" validate={validateName}>
                 {({ field, form }: FieldProps) => (
-                  <FormControl isInvalid={form.errors.name !== undefined} isRequired>
+                  <FormControl isInvalid={form.errors.name !== ''} isRequired>
                     <FormLabel htmlFor="name">Nome</FormLabel>
                     <Input {...field} id="name" placeholder="name" />
                     <FormErrorMessage>{form.errors.name}</FormErrorMessage>
@@ -105,7 +111,7 @@ const Signup = (): JSX.Element => {
               </Field>
               <Field name="document" validate={validateDocument}>
                 {({ field, form }: FieldProps) => (
-                  <FormControl isInvalid={form.errors.document !== undefined} isRequired>
+                  <FormControl isInvalid={form.errors.document !== ''} isRequired>
                     <FormLabel htmlFor="document">CPF</FormLabel>
                     <Input
                       {...field}
@@ -114,13 +120,13 @@ const Signup = (): JSX.Element => {
                       value={cpf}
                       onChange={(event) => setCpf(cpfMask(event.target.value))}
                     />
-                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                    <FormErrorMessage>{form.errors.document}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
               <Field name="email" validate={validateEmail}>
                 {({ field, form }: FieldProps) => (
-                  <FormControl isInvalid={form.errors.email !== undefined} isRequired>
+                  <FormControl isInvalid={form.errors.email !== ''} isRequired>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input {...field} id="email" placeholder="email@gmail.com" />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
@@ -129,7 +135,7 @@ const Signup = (): JSX.Element => {
               </Field>
               <Field name="birthdate" validate={validateBirthdate}>
                 {({ field, form }: FieldProps) => (
-                  <FormControl isInvalid={form.errors.birthdate !== undefined} isRequired>
+                  <FormControl isInvalid={form.errors.birthdate !== ''} isRequired>
                     <FormLabel htmlFor="birthdate">Aniversário</FormLabel>
                     <Input {...field} id="birthdate" placeholder="xx/xx/xxxx" type="date" />
                     <FormErrorMessage>{form.errors.birthdate}</FormErrorMessage>

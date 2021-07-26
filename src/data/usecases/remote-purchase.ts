@@ -3,6 +3,7 @@ import UnexpectedError from '@/src/domain/errors/unexpected-error'
 import { Purchase, PurchaseParam } from '@/src/domain/usecases/purchase'
 import HttpMethods from '@/src/utils/http-methods'
 import HttpStatusCode from '@/src/utils/http-status-code'
+import PurchaseToApiMapper from '../mapper/purchase-to-api'
 import { HttpClient } from '../protocols/http/http-client'
 
 export default class RemotePurchase implements Purchase {
@@ -19,13 +20,13 @@ export default class RemotePurchase implements Purchase {
     const httpResponse = await this.httpClient.request({
       url: this.url,
       method: HttpMethods.POST,
-      body: param,
+      body: PurchaseToApiMapper(param),
     })
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.OK: {
         if (httpResponse.body) {
-          return httpResponse.body
+          return
         }
 
         throw new UnexpectedError(httpResponse.statusCode)

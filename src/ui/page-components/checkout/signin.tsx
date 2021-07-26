@@ -16,10 +16,10 @@ const Signin = (): JSX.Element => {
   const { setIsSigninScreen } = useSigninSignupState()
   const toast = useToast()
 
-  const validateEmail = (email: string): string => {
-    let error = ''
+  const validateEmail = (email: string): string | undefined => {
+    let error
 
-    if (validator.isEmail(email)) {
+    if (!validator.isEmail(email)) {
       error = 'Insira um email válido'
     }
 
@@ -28,27 +28,31 @@ const Signin = (): JSX.Element => {
 
   const onSubmit = async (values: SigninForm, actions: FormikHelpers<SigninForm>): Promise<void> => {
     let user = null
-    // try {
-    //   user = await makeRemoteSignin().login(values.email)
-    // } catch (e) {
-    //   toast({
-    //     title: `${e}`,
-    //     status: 'error',
-    //     isClosable: true,
-    //   })
-    //   actions.setSubmitting(false)
-    //   return
-    // }
-
-    user = {
-      cpf: 'test',
-      name: 'test',
-      birthdate: 'test',
-      email: 'test',
-      interest: 'test',
+    try {
+      user = await makeRemoteSignin().login(values.email)
+    } catch (e) {
+      toast({
+        title: `${e}`,
+        status: 'error',
+        isClosable: true,
+      })
+      actions.setSubmitting(false)
+      return
     }
 
-    setAuth(user)
+    if (user.about) {
+      console.log('Usuario logado')
+      console.log(user)
+
+      setAuth(user.about)
+    } else {
+      toast({
+        title: 'Você não está cadastrado, por favor se cadastre antes de concluir a compra',
+        status: 'error',
+        isClosable: true,
+      })
+    }
+
     actions.setSubmitting(false)
   }
 
@@ -66,10 +70,10 @@ const Signin = (): JSX.Element => {
             <Box mt="30" mb="30">
               <Field name="email" validate={validateEmail}>
                 {({ field, form }: FieldProps) => (
-                  <FormControl isInvalid={form.errors.enail !== undefined && form.touched.enail !== undefined}>
+                  <FormControl isInvalid={form.errors.email !== '' && form.touched.email !== undefined}>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input {...field} id="email" placeholder="email@gmail.com" />
-                    <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>

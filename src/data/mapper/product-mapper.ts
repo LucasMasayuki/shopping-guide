@@ -7,12 +7,12 @@ const ProductMapper = (body: any): Product => {
     about: body.about,
     id: body.id,
     name: body.nome,
-    description: body.descricao,
-    price: body.preco,
+    description: body.descricao ?? '',
+    price: body.preco ?? body.valor,
     photo: body.pictureURI,
     category: body.categoria,
     inStock: 10,
-    quantity: 0,
+    quantity: body.quantidadeCarrinho ?? 0,
   }
 }
 export default ProductMapper

@@ -8,10 +8,12 @@ import { currency } from '@/src/utils/utiltiies-functions'
 import { Form, Formik, FormikHelpers } from 'formik'
 import makeRemotePurchase from '@/src/main/usecases/remote-purchase-factory'
 import { useRouter } from 'next/router'
+import makeRemoteGetCart from '@/src/main/usecases/remote-get-cart'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
 import ProductInput from '../shared/product-input'
 import PaymentForm from './payment-form'
 import AppButton from '../shared/app-button'
+import { useAuthState } from '../../contexts-providers/store/auth-provider'
 
 export type PaymentFormFields = {
   expireDate: string
@@ -23,6 +25,7 @@ export type PaymentFormFields = {
 
 const ConfirmOrder = (): JSX.Element => {
   const { cart, setCart } = useCartState()
+  const { auth } = useAuthState()
 
   const router = useRouter()
   const toast = useToast()
@@ -37,34 +40,43 @@ const ConfirmOrder = (): JSX.Element => {
     makeLocalGetCart()
       .getCart(name ?? '')
       .then((localCart: Cart) => {
-        setCart(localCart)
+        if (localCart.about !== '') {
+          makeRemoteGetCart()
+            .getCart(localCart.about)
+            .then((remoteCart) => {
+              setCart(remoteCart)
+            })
+        } else {
+          setCart(localCart)
+        }
       })
   }, [setCart])
 
   const onSubmit = async (values: PaymentFormFields, actions: FormikHelpers<PaymentFormFields>): Promise<void> => {
     const purchaseParams = {
+      aboutUser: auth,
       cart,
       creditcard: {
-        cvv: values.cvv,
-        number: values.number,
-        name: values.fullName,
-        expireDate: values.expireDate,
+        cvv: values.cvv ?? '',
+        number: values.number ?? '',
+        name: values.fullName ?? '',
+        expireDate: values.expireDate ?? '',
       },
       takeoutPayment: values.takeoutPayment !== '' ? values.takeoutPayment : null,
     }
 
-    // try {
-    //   makeRemotePurchase().purchase(purchaseParams)
-    // } catch (e) {
-    //   toast({
-    //     title: `${e}`,
-    //     status: 'error',
-    //     isClosable: true,
-    //   })
+    try {
+      makeRemotePurchase().purchase(purchaseParams)
+    } catch (e) {
+      toast({
+        title: `${e}`,
+        status: 'error',
+        isClosable: true,
+      })
 
-    //   actions.setSubmitting(false)
-    //   return
-    // }
+      actions.setSubmitting(false)
+      return
+    }
 
     actions.setSubmitting(false)
     router.push({ pathname: 'checkout-done', query: { name } })

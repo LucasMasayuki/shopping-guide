@@ -4,17 +4,17 @@ import { User } from '@/src/domain/models/user-model'
 import React, { createContext, useContext, useState } from 'react'
 
 type AuthStateContextType = {
-  auth: User
-  setAuth: (user: User) => void
+  auth: string
+  setAuth: (aboutUser: string) => void
 }
 
 const AuthStateContext = createContext<AuthStateContextType>({
-  auth: {} as User,
-  setAuth: (user: User) => {},
+  auth: '',
+  setAuth: (aboutUser: string) => {},
 })
 
 const AuthStateProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const [auth, setAuth] = useState({} as User)
+  const [auth, setAuth] = useState('')
   return <AuthStateContext.Provider value={{ auth, setAuth }}>{children}</AuthStateContext.Provider>
 }
 

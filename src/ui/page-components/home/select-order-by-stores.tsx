@@ -11,6 +11,8 @@ const SelectOrderByStores = (): JSX.Element => {
   const onChange = async (selectedElement: ChangeEvent<HTMLSelectElement>): Promise<void> => {
     const { value } = selectedElement.target
     const responseStores = await makeRemoteGetAllStores().getAllStores(value as OrderBy)
+    console.log('Lojas ordenadas')
+    console.log(responseStores)
     setStores(responseStores)
   }
 

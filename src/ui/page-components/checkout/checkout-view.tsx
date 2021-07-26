@@ -11,18 +11,21 @@ import ConfirmOrder from './confirm-order'
 const CheckoutView = (): JSX.Element => {
   const { auth } = useAuthState()
 
+  console.log('Usuario logado')
+  console.log(auth)
+
   return (
     <>
       <Box
         backgroundColor="gray"
-        h={auth.cpf === undefined ? '100vh' : 'inherit'}
+        h={auth === '' ? '100vh' : 'inherit'}
         display="grid"
         alignItems="center"
         justifyItems="center"
         textAlign="center"
       >
         <Box />
-        {auth.cpf === undefined ? (
+        {auth === '' ? (
           <SigninSignupStateProvider>
             <AuthBox />
           </SigninSignupStateProvider>

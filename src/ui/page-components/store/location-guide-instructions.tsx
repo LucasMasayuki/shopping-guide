@@ -20,6 +20,8 @@ const LocationGuideInstructions = (): JSX.Element => {
     makeRemoteGetLocationGuide()
       .getLocationGuide(name ?? '')
       .then((remoteLocationGuide: LocationGuide) => {
+        console.log('Guia de localização da loja')
+        console.log(remoteLocationGuide)
         setLocationGuide(remoteLocationGuide)
       })
   }, [setLocationGuide, name])

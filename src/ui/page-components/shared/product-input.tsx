@@ -22,20 +22,25 @@ const ProductInput = ({ product, cartIndex }: Props): JSX.Element => {
   let { name } = router.query
 
   const getPrice = (): string => {
+    console.log(product)
     return currency(product.quantity * product.price)
   }
 
   const onIncreaseProduct = async (index: number): Promise<void> => {
     cart.products[index].quantity += 1
     cart.total = getCartTotal(cart)
-    await makeIncreaseProductQuantity().increaseQuantity(cart.products[index], cart.about)
+    const response = await makeIncreaseProductQuantity().increaseQuantity(cart.products[index], cart.about)
+    console.log('Quantidade do item incrementado')
+    console.log(response)
     setCart({ ...cart })
   }
 
   const onDecreaseProduct = async (index: number): Promise<void> => {
     cart.products[index].quantity -= 1
     cart.total = getCartTotal(cart)
-    await makeDecreaseProductQuantity().decreaseQuantity(cart.products[index], cart.about)
+    const response = await makeDecreaseProductQuantity().decreaseQuantity(cart.products[index], cart.about)
+    console.log('Quantidade do item decrementado')
+    console.log(response)
     setCart({ ...cart })
   }
 
@@ -46,6 +51,8 @@ const ProductInput = ({ product, cartIndex }: Props): JSX.Element => {
     }
 
     const currentCart = await makeRemoteDeleteProductOfCart().deleteProductOfCart(cart.products[index], cart.about)
+    console.log('Item deletado')
+    console.log(currentCart)
     makeLocalDeleteProductOfCart().deleteProductOfCart(cart.products[index], cart.about, name ?? '')
     setCart({ ...currentCart })
   }

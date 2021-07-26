@@ -1,5 +1,3 @@
-import { User } from '../models/user-model'
-
 export type SignupFields = {
   email: string
   name: string
@@ -9,5 +7,5 @@ export type SignupFields = {
 }
 
 export interface Signup {
-  register: (fields: SignupFields) => Promise<User>
+  register: (fields: SignupFields) => Promise<string>
 }

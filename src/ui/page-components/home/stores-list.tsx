@@ -13,6 +13,8 @@ const StoresList = (): JSX.Element => {
     makeRemoteGetAllStores()
       .getAllStores(OrderBy.NAME)
       .then((response) => {
+        console.log('Todas as lojas')
+        console.log(response)
         setStores(response)
       })
   }, [setStores])

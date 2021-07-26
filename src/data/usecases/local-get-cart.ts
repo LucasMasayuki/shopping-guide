@@ -8,7 +8,7 @@ export default class LocalGetCart implements GetCart {
     this.storage = storage
   }
 
-  async getCart(storeName?: string): Promise<GetCartResult> {
+  async getCart(storeName: string): Promise<GetCartResult> {
     const key = `cart-${storeName}`
     const json = this.storage.get(key)
     let cart: GetCartResult = {

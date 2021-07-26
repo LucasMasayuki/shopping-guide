@@ -11,6 +11,7 @@ import { Cart } from '@/src/domain/models/cart-model'
 import { useCartState } from '@/src/ui/contexts-providers/store/cart-provider'
 import { useRouter } from 'next/router'
 import { Product } from '@/src/domain/models/product-model'
+import makeRemoteGetCart from '@/src/main/usecases/remote-get-cart'
 import LocationGuideInstructions from './location-guide-instructions'
 
 type Props = {
@@ -35,7 +36,19 @@ const StoreView = ({ storePageProps }: Props): JSX.Element => {
     makeLocalGetCart()
       .getCart(name ?? '')
       .then((localCart: Cart) => {
-        setCart(localCart)
+        if (localCart.about !== '') {
+          makeRemoteGetCart()
+            .getCart(localCart.about)
+            .then((remoteCart) => {
+              console.log('Carrinho atual')
+              console.log(remoteCart)
+              setCart(remoteCart)
+            })
+        } else {
+          console.log('Carrinho atual')
+          console.log(localCart)
+          setCart(localCart)
+        }
       })
   }, [setCart])
 

@@ -4,6 +4,7 @@ import { User } from '@/src/domain/models/user-model'
 
 const UserMapper = (body: any): User => {
   return {
+    about: body.about,
     name: body.nome,
     cpf: body.cpf,
     birthdate: '',

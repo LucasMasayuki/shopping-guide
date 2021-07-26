@@ -30,9 +30,12 @@ const ProductCard = ({ product }: Props): JSX.Element => {
       currentCart = await makeRemoteCreateCart().createCart(toAddProduct, null)
     } else {
       currentCart = await makeRemoteAddProductToCart().addProductToCart(toAddProduct, currentCart.about)
-      await makeLocalAddProductToCart().addProductToCart(toAddProduct, currentCart.about, name ?? '')
     }
 
+    console.log('Item inserido no carrinho')
+    console.log(currentCart)
+
+    await makeLocalAddProductToCart().addProductToCart(toAddProduct, currentCart.about, name ?? '')
     setCart(currentCart)
 
     onClose()
