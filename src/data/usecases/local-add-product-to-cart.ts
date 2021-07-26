@@ -15,6 +15,7 @@ export default class LocalAddProductToCart implements AddProductToCart {
     const json = this.storage.get(key)
     let cart: AddProductToCartResult = {
       products: [],
+      about: '',
       total: 0,
     }
 

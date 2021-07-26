@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
 import Head from 'next/head'
 
-import makeRemoteGetStore from '@/src/main/usecases/remote-get-store-factory'
 import { Store } from '@/src/domain/models/store-model'
 import Layout from '@/src/ui/components/layout'
 import makeRemoteGetAllStores from '@/src/main/usecases/remote-get-all-stores-factory'
@@ -12,10 +10,14 @@ import { CartStateProvider } from '@/src/ui/contexts-providers/store/cart-provid
 import React, { useEffect, useState } from 'react'
 import StoreView from '@/src/ui/page-components/store/store-view'
 import { CircularProgress } from '@chakra-ui/react'
-import Dummies from '../../dummies/stores-list-dummy.json'
+import makeRemoteGetProductsOfStore from '@/src/main/usecases/remote-get-products-of-store-factory'
+import { Product } from '@/src/domain/models/product-model'
 
 type Props = {
-  store: Store | null
+  storePageProps: {
+    storePhoto: string
+    products: Array<Product>
+  }
   errorCode: number | null
 }
 
@@ -36,13 +38,15 @@ type StaticPaths = {
 
 type StaticProps = {
   props: {
-    store: Store | null
+    storePageProps: {
+      storePhoto: string
+      products: Array<Product>
+    }
     errorCode: number | null
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-const StorePage = ({ store, errorCode }: Props): JSX.Element => {
+const StorePage = ({ storePageProps, errorCode }: Props): JSX.Element => {
   const router = useRouter()
   const [storeName, setStoreName] = useState('')
 
@@ -71,9 +75,9 @@ const StorePage = ({ store, errorCode }: Props): JSX.Element => {
         <CartStateProvider>
           <Layout>
             <Head>
-              <title>{store?.name}</title>
+              <title>{storeName}</title>
             </Head>
-            <StoreView store={store} />
+            <StoreView storePageProps={storePageProps} />
           </Layout>
         </CartStateProvider>
       )}
@@ -84,26 +88,37 @@ const StorePage = ({ store, errorCode }: Props): JSX.Element => {
 export default StorePage
 
 export async function getStaticProps({ params }: Params): Promise<StaticProps> {
-  const [store] = Dummies.stores
   let errorCode = null
+  let products: Array<Product> = []
+  let storePhoto = ''
 
   try {
-    // store = await makeRemoteGetStore().getStore(params.name)
+    const stores = await makeRemoteGetAllStores().getAllStores(OrderBy.NAME)
+    const selectedStore = stores.filter((store) => {
+      return store.name === params.name
+    })
+
+    products = await makeRemoteGetProductsOfStore().getProdcuts(selectedStore[0].about)
+    storePhoto = selectedStore[0].photo !== null ? selectedStore[0].photo : ''
   } catch (error) {
     errorCode = error.code
   }
 
+  const storePageProps = {
+    products,
+    storePhoto,
+  }
+
   return {
     props: {
-      store,
+      storePageProps,
       errorCode,
     },
   }
 }
 
 export async function getStaticPaths(): Promise<StaticPaths> {
-  // const stores = await makeRemoteGetAllStores().getAllStores(OrderBy.NAME)
-  const { stores } = Dummies
+  const stores = await makeRemoteGetAllStores().getAllStores(OrderBy.NAME)
 
   return {
     paths: stores.map((store: Store) => ({

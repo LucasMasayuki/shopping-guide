@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { Box } from '@chakra-ui/react'
 
-import { Store } from '@/src/domain/models/store-model'
 import AppBar from '@/src/ui/components/app-bar'
 import CartIcon from '@/src/ui/page-components/store/cart-icon'
 import ProductList from '@/src/ui/page-components/store/product-list'
@@ -11,14 +10,18 @@ import makeLocalGetCart from '@/src/main/usecases/local-get-cart-factory'
 import { Cart } from '@/src/domain/models/cart-model'
 import { useCartState } from '@/src/ui/contexts-providers/store/cart-provider'
 import { useRouter } from 'next/router'
+import { Product } from '@/src/domain/models/product-model'
 import LocationGuideInstructions from './location-guide-instructions'
 
 type Props = {
-  store: Store | null
+  storePageProps: {
+    products: Array<Product>
+    storePhoto: string
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
-const StoreView = ({ store }: Props): JSX.Element => {
+const StoreView = ({ storePageProps }: Props): JSX.Element => {
   const { setCart } = useCartState()
   const router = useRouter()
   let { name } = router.query
@@ -37,13 +40,13 @@ const StoreView = ({ store }: Props): JSX.Element => {
   }, [setCart])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const categories = groupBy(store?.products ?? [], (i: { category: any }) => i.category)
+  const categories = groupBy(storePageProps.products, (i: { category: any }) => i.category)
 
   return (
     <>
       <AppBar drawerElement={<CartIcon />} />
       <Box
-        backgroundImage={store?.photo ?? ''}
+        backgroundImage={storePageProps.storePhoto}
         backgroundRepeat="no-repeat"
         backgroundSize="100%"
         d="grid"

@@ -4,8 +4,8 @@ export type GetStoresResult = Array<Store>
 
 // eslint-disable-next-line no-shadow
 export enum OrderBy {
-  NAME = 'name',
-  ACTIVITY = 'activity',
+  NAME = 'nome',
+  ACTIVITY = 'atividade',
 }
 
 export interface GetAllStores {

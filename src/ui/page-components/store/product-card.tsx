@@ -4,6 +4,7 @@ import { Product } from '@/src/domain/models/product-model'
 import { currency, getCartTotal } from '@/src/utils/utiltiies-functions'
 import makeLocalAddProductToCart from '@/src/main/usecases/local-add-product-to-cart-factory'
 import { useRouter } from 'next/router'
+import makeRemoteCreateCart from '@/src/main/usecases/remote-create-cart-factory'
 import MoreDetailsProductModal from './more-details-product-modal'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
 
@@ -13,7 +14,7 @@ type Props = {
 
 const ProductCard = ({ product }: Props): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { setCart } = useCartState()
+  const { cart, setCart } = useCartState()
   const router = useRouter()
   let { name } = router.query
 
@@ -23,8 +24,16 @@ const ProductCard = ({ product }: Props): JSX.Element => {
       name = name[0]
     }
 
-    const cart = await makeLocalAddProductToCart().addProductToCart(toAddProduct, name ?? '')
-    setCart({ ...cart, total: getCartTotal(cart) })
+    let currentCart = cart
+    if (currentCart.about === '') {
+      currentCart = await makeRemoteCreateCart().createCart({
+        aboutCart: null,
+        aboutProduct: toAddProduct.about,
+        productQuantity: toAddProduct.quantity,
+      })
+    } else {
+      // currentCart = await makeLocalAddProductToCart().addProductToCart(toAddProduct, name ?? '')
+    }
 
     onClose()
   }

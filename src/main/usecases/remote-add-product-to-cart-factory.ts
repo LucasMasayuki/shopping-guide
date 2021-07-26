@@ -4,6 +4,6 @@ import { makeApiUrl } from '../http/api-url-factory'
 import makeAxiosHttpClient from '../http/axios-http-client-factory'
 
 const makeRemoteAddProductToCart = (): AddProductToCart =>
-  new RemoteProductAddToCart(makeApiUrl('/cart'), makeAxiosHttpClient())
+  new RemoteProductAddToCart(makeApiUrl('/adicionarProduto'), makeAxiosHttpClient())
 
 export default makeRemoteAddProductToCart

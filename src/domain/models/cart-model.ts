@@ -1,6 +1,7 @@
 import { Product } from './product-model'
 
 export type Cart = {
+  about: string
   total: number
   products: Product[]
 }

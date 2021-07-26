@@ -29,6 +29,7 @@ describe('RemoteGetStore', () => {
     const { sut, httpClientSpy } = makeSut(url)
 
     const expectedResponse = {
+      about: '',
       name: faker.name.findName(),
       activity: faker.commerce.department(),
       photo: faker.name.title(),
@@ -109,6 +110,7 @@ describe('RemoteGetStore', () => {
   test('Should return an Authentication.Model if HttpClient returns 200', async () => {
     const { sut, httpClientSpy } = makeSut()
     const expectedResponse = {
+      about: '',
       name: faker.name.findName(),
       activity: faker.commerce.department(),
       photo: faker.name.title(),

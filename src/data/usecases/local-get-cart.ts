@@ -14,6 +14,7 @@ export default class LocalGetCart implements GetCart {
     let cart: GetCartResult = {
       products: [],
       total: 0,
+      about: '',
     }
 
     if (json !== null) {

@@ -29,6 +29,7 @@ describe('RemoteGetAllStores', () => {
 
     const expectedResponse = [
       {
+        about: '',
         name: faker.name.findName(),
         activity: faker.commerce.department(),
         photo: faker.name.title(),
@@ -111,6 +112,7 @@ describe('RemoteGetAllStores', () => {
     const { sut, httpClientSpy } = makeSut()
     const expectedResponse = [
       {
+        about: '',
         name: faker.name.findName(),
         activity: faker.commerce.department(),
         photo: faker.name.title(),

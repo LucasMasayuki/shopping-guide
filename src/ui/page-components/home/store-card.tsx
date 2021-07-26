@@ -25,7 +25,7 @@ const StoreCard = ({ store }: Props): JSX.Element => {
           <Box fontWeight="semibold" fontSize="24" lineHeight="tight" isTruncated>
             {store.name}
           </Box>
-          <Badge bgColor={store.activity} borderRadius="8px" pr="2" pl="2" color="white">
+          <Badge bgColor={store.activity.toLowerCase()} borderRadius="8px" pr="2" pl="2" color="white">
             {store.activity}
           </Badge>
 

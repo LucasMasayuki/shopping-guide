@@ -12,6 +12,7 @@ type CartStateContextType = {
 const products: Product[] = []
 const initialState = {
   total: 0,
+  about: '',
   products,
 }
 

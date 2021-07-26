@@ -5,7 +5,6 @@ export default class AxiosHttpClient implements HttpClient {
   // eslint-disable-next-line class-methods-use-this
   async request(data: HttpRequest): Promise<HttpResponse> {
     let axiosResponse: AxiosResponse
-    console.log(data)
 
     try {
       axiosResponse = await axios.request({
@@ -17,10 +16,11 @@ export default class AxiosHttpClient implements HttpClient {
     } catch (error) {
       axiosResponse = error.response
     }
+    console.log(axiosResponse)
 
     return {
-      statusCode: axiosResponse.status,
-      body: axiosResponse.data,
+      statusCode: axiosResponse?.status,
+      body: axiosResponse?.data,
     }
   }
 }

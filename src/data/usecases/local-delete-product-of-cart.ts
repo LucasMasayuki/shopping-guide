@@ -14,6 +14,7 @@ export default class LocalDeleteProductsOfCart implements DeleteProductOfCart {
 
     let cart: DeleteProductOfCartResult = {
       products: [],
+      about: '',
       total: 0,
     }
 

@@ -28,6 +28,7 @@ describe('RemoteGetStore', () => {
     const url = faker.internet.url()
     const { sut, httpClientSpy } = makeSut(url)
     const product = {
+      about: '',
       id: 1,
       name: faker.name.title(),
       photo: faker.internet.url(),
@@ -39,6 +40,7 @@ describe('RemoteGetStore', () => {
     }
 
     const expectedResponse = {
+      about: '',
       total: 10,
       products: [product],
     }
@@ -62,6 +64,7 @@ describe('RemoteGetStore', () => {
     }
 
     const product = {
+      about: '',
       id: 1,
       name: faker.name.title(),
       photo: faker.internet.url(),
@@ -84,6 +87,7 @@ describe('RemoteGetStore', () => {
     }
 
     const product = {
+      about: '',
       id: 1,
       name: faker.name.title(),
       photo: faker.internet.url(),
@@ -106,6 +110,7 @@ describe('RemoteGetStore', () => {
     }
 
     const product = {
+      about: '',
       id: 1,
       name: faker.name.title(),
       photo: faker.internet.url(),
@@ -128,6 +133,7 @@ describe('RemoteGetStore', () => {
     }
 
     const product = {
+      about: '',
       id: 1,
       name: faker.name.title(),
       photo: faker.internet.url(),
@@ -152,6 +158,7 @@ describe('RemoteGetStore', () => {
     }
 
     const product = {
+      about: '',
       id: 1,
       name: faker.name.title(),
       photo: faker.internet.url(),
@@ -171,6 +178,7 @@ describe('RemoteGetStore', () => {
     const { sut, httpClientSpy } = makeSut()
 
     const product = {
+      about: '',
       id: 1,
       name: faker.name.title(),
       photo: faker.internet.url(),
@@ -182,6 +190,7 @@ describe('RemoteGetStore', () => {
     }
 
     const expectedResponse = {
+      about: '',
       total: 10,
       products: [product],
     }

@@ -30,6 +30,7 @@ describe('RemoteDeleteProductOfCart', () => {
 
     const product = {
       id: 1,
+      about: '',
       name: faker.name.title(),
       photo: faker.internet.url(),
       category: faker.name.jobDescriptor(),
@@ -40,6 +41,7 @@ describe('RemoteDeleteProductOfCart', () => {
     }
 
     const expectedResponse = {
+      about: '',
       total: 10,
       products: [product],
     }
@@ -117,6 +119,7 @@ describe('RemoteDeleteProductOfCart', () => {
     const { sut, httpClientSpy } = makeSut()
 
     const product = {
+      about: '',
       id: 1,
       name: faker.name.title(),
       photo: faker.internet.url(),
@@ -128,6 +131,7 @@ describe('RemoteDeleteProductOfCart', () => {
     }
 
     const expectedResponse = {
+      about: '',
       total: 10,
       products: [product],
     }
