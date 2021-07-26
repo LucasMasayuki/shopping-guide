@@ -3,6 +3,7 @@ import UnexpectedError from '@/src/domain/errors/unexpected-error'
 import { GetAllStores, GetStoresResult, OrderBy } from '@/src/domain/usecases/get-all-stores'
 import HttpMethods from '@/src/utils/http-methods'
 import HttpStatusCode from '@/src/utils/http-status-code'
+import StoreListMapper from '../mapper/store-list-mapper'
 import { HttpClient } from '../protocols/http/http-client'
 
 export default class RemoteGetAllStores implements GetAllStores {
@@ -24,7 +25,7 @@ export default class RemoteGetAllStores implements GetAllStores {
     switch (httpResponse.statusCode) {
       case HttpStatusCode.OK: {
         if (httpResponse.body) {
-          return httpResponse.body
+          return StoreListMapper(httpResponse.body)
         }
 
         throw new UnexpectedError()

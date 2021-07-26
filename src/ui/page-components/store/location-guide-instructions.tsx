@@ -8,22 +8,20 @@ import Dummy from '../../../dummies/location-guide-dummy.json'
 
 const LocationGuideInstructions = (): JSX.Element => {
   const router = useRouter()
-  const { name } = router.query
+  let { name } = router.query
   const [locationGuide, setLocationGuide] = useState({} as LocationGuide)
 
   useEffect(() => {
-    // if (Array.isArray(name)) {
-    //   // eslint-disable-next-line prefer-destructuring
-    //   name = storeName[0]
-    // }
+    if (Array.isArray(name)) {
+      // eslint-disable-next-line prefer-destructuring
+      name = name[0]
+    }
 
-    setLocationGuide(Dummy)
-
-    // makeRemoteGetLocationGuide()
-    //   .getLocationGuide(name)
-    //   .then((remoteLocationGuide: LocationGuide) => {
-    //     setLocationGuide(remoteLocationGuide)
-    //   })
+    makeRemoteGetLocationGuide()
+      .getLocationGuide(name ?? '')
+      .then((remoteLocationGuide: LocationGuide) => {
+        setLocationGuide(remoteLocationGuide)
+      })
   }, [setLocationGuide, name])
 
   return (

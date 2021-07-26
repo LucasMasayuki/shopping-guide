@@ -1,8 +1,8 @@
 import RemotePurchase from '@/src/data/usecases/remote-purchase'
 import { Purchase } from '@/src/domain/usecases/purchase'
-import makeApiUrl from '../http/api-url-factory'
+import { makeApiUrl } from '../http/api-url-factory'
 import makeAxiosHttpClient from '../http/axios-http-client-factory'
 
-const makeRemotePurchase = (): Purchase => new RemotePurchase(makeApiUrl('/purchase'), makeAxiosHttpClient())
+const makeRemotePurchase = (): Purchase => new RemotePurchase(makeApiUrl('/efetivarCompra'), makeAxiosHttpClient())
 
 export default makeRemotePurchase

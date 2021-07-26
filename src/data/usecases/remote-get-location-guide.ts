@@ -19,9 +19,10 @@ export default class RemoteGetLocationGuide implements GetLocationGuide {
 
   async getLocationGuide(storeName: string): Promise<LocationGuide> {
     const httpResponse = await this.httpClient.request({
-      url: `${this.url}?loja=${storeName}`,
+      url: `${this.url}?loja=${encodeURI(storeName)}`,
       method: HttpMethods.GET,
     })
+    console.log(this.url)
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.OK: {
