@@ -1,35 +1,32 @@
 import InvalidCredentialsError from '@/src/domain/errors/invalid-credentials-error'
 import UnexpectedError from '@/src/domain/errors/unexpected-error'
-import { Cart } from '@/src/domain/models/cart-model'
-import { Product } from '@/src/domain/models/product-model'
-import { DeleteProductOfCart } from '@/src/domain/usecases/delete-product-of-cart'
+import { Store } from '@/src/domain/models/store-model'
+import { SearchStoreByName } from '@/src/domain/usecases/search-store-by-name'
 import HttpMethods from '@/src/utils/http-methods'
 import HttpStatusCode from '@/src/utils/http-status-code'
-import CartMapper from '../mapper/cart-mapper'
-import CartToApiMapper from '../mapper/cart-to-api-mapper'
+import StoreListMapper from '../mapper/store-list-mapper'
 import { HttpClient } from '../protocols/http/http-client'
 
-export default class RemoteDeleteProductOfCart implements DeleteProductOfCart {
+export default class RemoteSearchStoreByName implements SearchStoreByName {
   private readonly url: string
 
-  private readonly httpClient: HttpClient<Cart>
+  private readonly httpClient: HttpClient<Store[]>
 
-  constructor(url: string, httpClient: HttpClient<Cart>) {
+  constructor(url: string, httpClient: HttpClient<Store[]>) {
     this.url = url
     this.httpClient = httpClient
   }
 
-  async deleteProductOfCart(product: Product, aboutCart: string): Promise<Cart> {
+  async search(storeName: string): Promise<Store[]> {
     const httpResponse = await this.httpClient.request({
-      url: `${this.url}`,
-      method: HttpMethods.POST,
-      body: CartToApiMapper(product, aboutCart),
+      url: `${this.url}?nome=${storeName}`,
+      method: HttpMethods.GET,
     })
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.OK: {
         if (httpResponse.body) {
-          return CartMapper(httpResponse.body)
+          return StoreListMapper(httpResponse.body)
         }
 
         throw new UnexpectedError(httpResponse.statusCode)

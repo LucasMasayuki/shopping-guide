@@ -5,6 +5,8 @@ import { Product } from '@/src/domain/models/product-model'
 import { AddProductToCart } from '@/src/domain/usecases/add-product-to-cart'
 import HttpMethods from '@/src/utils/http-methods'
 import HttpStatusCode from '@/src/utils/http-status-code'
+import CartMapper from '../mapper/cart-mapper'
+import CartToApiMapper from '../mapper/cart-to-api-mapper'
 import { HttpClient } from '../protocols/http/http-client'
 
 export default class RemoteProductAddToCart implements AddProductToCart {
@@ -17,17 +19,17 @@ export default class RemoteProductAddToCart implements AddProductToCart {
     this.httpClient = httpClient
   }
 
-  async addProductToCart(product: Product): Promise<Cart> {
+  async addProductToCart(product: Product, aboutCart: string): Promise<Cart> {
     const httpResponse = await this.httpClient.request({
       url: `${this.url}`,
-      method: HttpMethods.PUT,
-      body: product,
+      method: HttpMethods.POST,
+      body: CartToApiMapper(product, aboutCart),
     })
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.OK: {
         if (httpResponse.body) {
-          return httpResponse.body
+          return CartMapper(httpResponse.body)
         }
 
         throw new UnexpectedError(httpResponse.statusCode)

@@ -51,7 +51,7 @@ describe('RemoteDeleteProductOfCart', () => {
       body: expectedResponse,
     }
 
-    await sut.deleteProductOfCart(1)
+    await sut.deleteProductOfCart(product, '')
 
     expect(httpClientSpy.url).toBe(`${url}`)
     expect(httpClientSpy.method).toBe(HttpMethods.DELETE)
@@ -64,7 +64,19 @@ describe('RemoteDeleteProductOfCart', () => {
       statusCode: HttpStatusCode.UNAUTHORIZED,
     }
 
-    const promise = sut.deleteProductOfCart(1)
+    const product = {
+      id: 1,
+      about: '',
+      name: faker.name.title(),
+      photo: faker.internet.url(),
+      category: faker.name.jobDescriptor(),
+      price: 10,
+      description: faker.lorem.paragraph(),
+      inStock: 10,
+      quantity: 10,
+    }
+
+    const promise = sut.deleteProductOfCart(product, '')
 
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
@@ -75,7 +87,19 @@ describe('RemoteDeleteProductOfCart', () => {
       statusCode: HttpStatusCode.BAD_REQUEST,
     }
 
-    const promise = sut.deleteProductOfCart(1)
+    const product = {
+      id: 1,
+      about: '',
+      name: faker.name.title(),
+      photo: faker.internet.url(),
+      category: faker.name.jobDescriptor(),
+      price: 10,
+      description: faker.lorem.paragraph(),
+      inStock: 10,
+      quantity: 10,
+    }
+
+    const promise = sut.deleteProductOfCart(product, '')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -86,7 +110,19 @@ describe('RemoteDeleteProductOfCart', () => {
       statusCode: HttpStatusCode.ERROR,
     }
 
-    const promise = sut.deleteProductOfCart(1)
+    const product = {
+      id: 1,
+      about: '',
+      name: faker.name.title(),
+      photo: faker.internet.url(),
+      category: faker.name.jobDescriptor(),
+      price: 10,
+      description: faker.lorem.paragraph(),
+      inStock: 10,
+      quantity: 10,
+    }
+
+    const promise = sut.deleteProductOfCart(product, '')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -97,7 +133,19 @@ describe('RemoteDeleteProductOfCart', () => {
       statusCode: HttpStatusCode.NOT_FOUND,
     }
 
-    const promise = sut.deleteProductOfCart(1)
+    const product = {
+      id: 1,
+      about: '',
+      name: faker.name.title(),
+      photo: faker.internet.url(),
+      category: faker.name.jobDescriptor(),
+      price: 10,
+      description: faker.lorem.paragraph(),
+      inStock: 10,
+      quantity: 10,
+    }
+
+    const promise = sut.deleteProductOfCart(product, '')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -110,7 +158,19 @@ describe('RemoteDeleteProductOfCart', () => {
       body: undefined,
     }
 
-    const promise = sut.deleteProductOfCart(1)
+    const product = {
+      id: 1,
+      about: '',
+      name: faker.name.title(),
+      photo: faker.internet.url(),
+      category: faker.name.jobDescriptor(),
+      price: 10,
+      description: faker.lorem.paragraph(),
+      inStock: 10,
+      quantity: 10,
+    }
+
+    const promise = sut.deleteProductOfCart(product, '')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -141,7 +201,7 @@ describe('RemoteDeleteProductOfCart', () => {
       body: expectedResponse,
     }
 
-    const store = await sut.deleteProductOfCart(1)
+    const store = await sut.deleteProductOfCart(product, '')
 
     expect(store).toEqual(expectedResponse)
   })

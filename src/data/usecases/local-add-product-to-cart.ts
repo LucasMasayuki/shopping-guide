@@ -10,12 +10,12 @@ export default class LocalAddProductToCart implements AddProductToCart {
     this.storage = storage
   }
 
-  async addProductToCart(product: Product, storeName?: string): Promise<AddProductToCartResult> {
+  async addProductToCart(product: Product, aboutCart: string, storeName?: string): Promise<AddProductToCartResult> {
     const key = `cart-${storeName}`
     const json = this.storage.get(key)
     let cart: AddProductToCartResult = {
       products: [],
-      about: '',
+      about: aboutCart,
       total: 0,
     }
 

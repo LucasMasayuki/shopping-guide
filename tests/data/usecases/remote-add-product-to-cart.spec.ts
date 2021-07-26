@@ -50,10 +50,10 @@ describe('RemoteGetStore', () => {
       body: expectedResponse,
     }
 
-    await sut.addProductToCart(product)
+    await sut.addProductToCart(product, '')
 
     expect(httpClientSpy.url).toBe(`${url}`)
-    expect(httpClientSpy.method).toBe(HttpMethods.PUT)
+    expect(httpClientSpy.method).toBe(HttpMethods.POST)
     expect(httpClientSpy.body).toBe(product)
   })
 
@@ -75,7 +75,7 @@ describe('RemoteGetStore', () => {
       quantity: 10,
     }
 
-    const promise = sut.addProductToCart(product)
+    const promise = sut.addProductToCart(product, '')
 
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
@@ -98,7 +98,7 @@ describe('RemoteGetStore', () => {
       quantity: 10,
     }
 
-    const promise = sut.addProductToCart(product)
+    const promise = sut.addProductToCart(product, '')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -121,7 +121,7 @@ describe('RemoteGetStore', () => {
       quantity: 10,
     }
 
-    const promise = sut.addProductToCart(product)
+    const promise = sut.addProductToCart(product, '')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -144,7 +144,7 @@ describe('RemoteGetStore', () => {
       quantity: 10,
     }
 
-    const promise = sut.addProductToCart(product)
+    const promise = sut.addProductToCart(product, '')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -169,7 +169,7 @@ describe('RemoteGetStore', () => {
       quantity: 10,
     }
 
-    const promise = sut.addProductToCart(product)
+    const promise = sut.addProductToCart(product, '')
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -200,7 +200,7 @@ describe('RemoteGetStore', () => {
       body: expectedResponse,
     }
 
-    const store = await sut.addProductToCart(product)
+    const store = await sut.addProductToCart(product, '')
 
     expect(store).toEqual(expectedResponse)
   })

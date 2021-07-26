@@ -1,10 +1,11 @@
 import React from 'react'
 import { Box, Grid, Image, useDisclosure } from '@chakra-ui/react'
 import { Product } from '@/src/domain/models/product-model'
-import { currency, getCartTotal } from '@/src/utils/utiltiies-functions'
+import { currency } from '@/src/utils/utiltiies-functions'
 import makeLocalAddProductToCart from '@/src/main/usecases/local-add-product-to-cart-factory'
 import { useRouter } from 'next/router'
 import makeRemoteCreateCart from '@/src/main/usecases/remote-create-cart-factory'
+import makeRemoteAddProductToCart from '@/src/main/usecases/remote-add-product-to-cart-factory'
 import MoreDetailsProductModal from './more-details-product-modal'
 import { useCartState } from '../../contexts-providers/store/cart-provider'
 
@@ -26,14 +27,13 @@ const ProductCard = ({ product }: Props): JSX.Element => {
 
     let currentCart = cart
     if (currentCart.about === '') {
-      currentCart = await makeRemoteCreateCart().createCart({
-        aboutCart: null,
-        aboutProduct: toAddProduct.about,
-        productQuantity: toAddProduct.quantity,
-      })
+      currentCart = await makeRemoteCreateCart().createCart(toAddProduct, null)
     } else {
-      // currentCart = await makeLocalAddProductToCart().addProductToCart(toAddProduct, name ?? '')
+      currentCart = await makeRemoteAddProductToCart().addProductToCart(toAddProduct, currentCart.about)
+      await makeLocalAddProductToCart().addProductToCart(toAddProduct, currentCart.about, name ?? '')
     }
+
+    setCart(currentCart)
 
     onClose()
   }

@@ -1,7 +1,20 @@
 import React from 'react'
 import { Box, Grid, Heading, Input } from '@chakra-ui/react'
+import makeRemoteSearchStoreByName from '@/src/main/usecases/remote-search-store-by-name-factory'
+import { useStoresState } from '../../contexts-providers/store/stores-provider'
 
 const IndexBanner = (): JSX.Element => {
+  const { setStores } = useStoresState()
+
+  const onBlur = async (event: React.FocusEvent<HTMLInputElement>): Promise<void> => {
+    const { currentTarget } = event
+
+    if (currentTarget) {
+      const stores = await makeRemoteSearchStoreByName().search((currentTarget as HTMLInputElement).value)
+      setStores(stores)
+    }
+  }
+
   return (
     <Grid
       backgroundImage="./shopping-entrance.jpg"
@@ -15,7 +28,7 @@ const IndexBanner = (): JSX.Element => {
       alignItems="center"
       justifyItems="center"
     >
-      <Input placeholder="Encontre sua loja" size="lg" background="white" />
+      <Input placeholder="Encontre sua loja" size="lg" background="white" onBlur={onBlur} />
       <Box>
         <Heading as="h1" color="white" fontWeight="bold">
           Seja bem vindo,

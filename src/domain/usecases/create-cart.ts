@@ -1,11 +1,6 @@
 import { Cart } from '../models/cart-model'
-
-export type CreateCartParams = {
-  aboutCart: string | null
-  aboutProduct: string
-  productQuantity: number
-}
+import { Product } from '../models/product-model'
 
 export interface CreateCart {
-  createCart: (params: CreateCartParams) => Promise<Cart>
+  createCart: (product: Product, aboutCart: string | null) => Promise<Cart>
 }

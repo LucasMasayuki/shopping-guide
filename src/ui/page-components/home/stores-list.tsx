@@ -1,19 +1,30 @@
-import React from 'react'
-import { Grid } from '@chakra-ui/react'
+import React, { useEffect } from 'react'
+import { Grid, Skeleton } from '@chakra-ui/react'
 import { Store } from '@/src/domain/models/store-model'
+import makeRemoteGetAllStores from '@/src/main/usecases/remote-get-all-stores-factory'
+import { OrderBy } from '@/src/domain/usecases/get-all-stores'
 import StoreCard from './store-card'
+import { useStoresState } from '../../contexts-providers/store/stores-provider'
 
-type Props = {
-  stores: Store[]
-}
+const StoresList = (): JSX.Element => {
+  const { stores, setStores } = useStoresState()
 
-const StoresList = ({ stores }: Props): JSX.Element => {
+  useEffect(() => {
+    makeRemoteGetAllStores()
+      .getAllStores(OrderBy.NAME)
+      .then((response) => {
+        setStores(response)
+      })
+  }, [setStores])
+
   return (
-    <Grid templateColumns={{ base: 'repeat(1, 1fr)', lg: 'repeat(2, 1fr)' }} gap={16} justifyItems="center">
-      {stores.map((store: Store) => (
-        <StoreCard key={store.name} store={store} />
-      ))}
-    </Grid>
+    <Skeleton isLoaded={stores.length > 0}>
+      <Grid templateColumns={{ base: 'repeat(1, 1fr)', lg: 'repeat(2, 1fr)' }} gap={16} justifyItems="center">
+        {stores.map((store: Store) => (
+          <StoreCard key={store.name} store={store} />
+        ))}
+      </Grid>
+    </Skeleton>
   )
 }
 

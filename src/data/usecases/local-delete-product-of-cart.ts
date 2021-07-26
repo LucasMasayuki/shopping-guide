@@ -1,3 +1,4 @@
+import { Product } from '@/src/domain/models/product-model'
 import { DeleteProductOfCart, DeleteProductOfCartResult } from '@/src/domain/usecases/delete-product-of-cart'
 import LocalStorage from '@/src/infra/cache/local-storage'
 
@@ -8,13 +9,17 @@ export default class LocalDeleteProductsOfCart implements DeleteProductOfCart {
     this.storage = storage
   }
 
-  async deleteProductOfCart(id: number, storeName?: string): Promise<DeleteProductOfCartResult> {
+  async deleteProductOfCart(
+    product: Product,
+    aboutCart: string,
+    storeName?: string,
+  ): Promise<DeleteProductOfCartResult> {
     const key = `cart-${storeName}`
     const json = this.storage.get(key)
 
     let cart: DeleteProductOfCartResult = {
       products: [],
-      about: '',
+      about: aboutCart,
       total: 0,
     }
 
@@ -25,8 +30,8 @@ export default class LocalDeleteProductsOfCart implements DeleteProductOfCart {
     cart = JSON.parse(json ?? '')
 
     let index = 0
-    cart.products.forEach((product, currentIndex) => {
-      if (id === product.id) {
+    cart.products.forEach((currentProduct, currentIndex) => {
+      if (currentProduct.id === product.id) {
         index = currentIndex
       }
     })

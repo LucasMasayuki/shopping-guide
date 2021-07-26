@@ -4,6 +4,6 @@ import { makeApiUrl } from '../http/api-url-factory'
 import makeAxiosHttpClient from '../http/axios-http-client-factory'
 
 const makeRemoteDeleteProductOfCart = (): DeleteProductOfCart =>
-  new RemoteDeleteProductOfCart(makeApiUrl('/cart'), makeAxiosHttpClient())
+  new RemoteDeleteProductOfCart(makeApiUrl('/removerProduto'), makeAxiosHttpClient())
 
 export default makeRemoteDeleteProductOfCart

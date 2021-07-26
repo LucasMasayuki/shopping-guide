@@ -3,5 +3,5 @@ import { Product } from '../models/product-model'
 
 export type AddProductToCartResult = Cart
 export interface AddProductToCart {
-  addProductToCart: (product: Product, storeName?: string) => Promise<Cart>
+  addProductToCart: (product: Product, aboutCart: string, storeName?: string) => Promise<Cart>
 }

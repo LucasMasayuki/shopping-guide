@@ -1,5 +1,8 @@
 import { Product } from '@/src/domain/models/product-model'
 import makeLocalDeleteProductOfCart from '@/src/main/usecases/local-delete-product-of-cart-factory'
+import makeDecreaseProductQuantity from '@/src/main/usecases/remote-decrease-product-quantity-factory'
+import makeRemoteDeleteProductOfCart from '@/src/main/usecases/remote-delete-product-of-cart-factory'
+import makeIncreaseProductQuantity from '@/src/main/usecases/remote-increase-product-quantity-factory'
 import { currency, getCartTotal } from '@/src/utils/utiltiies-functions'
 import { CloseIcon, MinusIcon } from '@chakra-ui/icons'
 import { Box, Grid, IconButton, Image, Text } from '@chakra-ui/react'
@@ -22,28 +25,29 @@ const ProductInput = ({ product, cartIndex }: Props): JSX.Element => {
     return currency(product.quantity * product.price)
   }
 
-  const onIncreaseProduct = (index: number): void => {
+  const onIncreaseProduct = async (index: number): Promise<void> => {
     cart.products[index].quantity += 1
     cart.total = getCartTotal(cart)
+    await makeIncreaseProductQuantity().increaseQuantity(cart.products[index], cart.about)
     setCart({ ...cart })
   }
 
-  const onDecreaseProduct = (index: number): void => {
+  const onDecreaseProduct = async (index: number): Promise<void> => {
     cart.products[index].quantity -= 1
     cart.total = getCartTotal(cart)
+    await makeDecreaseProductQuantity().decreaseQuantity(cart.products[index], cart.about)
     setCart({ ...cart })
   }
 
-  const onDeleteProduct = (id: number, index: number): void => {
+  const onDeleteProduct = async (id: number, index: number): Promise<void> => {
     if (Array.isArray(name)) {
       // eslint-disable-next-line prefer-destructuring
       name = name[0]
     }
 
-    makeLocalDeleteProductOfCart().deleteProductOfCart(id, name ?? '')
-    cart.products.splice(index, 1)
-    cart.total = getCartTotal(cart)
-    setCart({ ...cart })
+    const currentCart = await makeRemoteDeleteProductOfCart().deleteProductOfCart(cart.products[index], cart.about)
+    makeLocalDeleteProductOfCart().deleteProductOfCart(cart.products[index], cart.about, name ?? '')
+    setCart({ ...currentCart })
   }
 
   return (
