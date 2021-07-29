@@ -48,8 +48,6 @@
 ---
 
 ## Dependencies
- 
- This project depends 
 
  https://github.com/Negri14/centro_comercial
 
@@ -115,6 +113,16 @@ In addition, it is good to have an editor to work with the code like [VSCode] (h
 #### Running the application
 
 ```bash
+
+# Clone this repository
+$ git clone git@github.com:Negri14/centro_comercial
+
+1. Open Eclipse
+2. Click on file
+3. Click on Import
+4. Click on Existing Maven Project
+5. Select the project directory centro_comercial
+6. Open CentroComercialApplication class -> Right click on Code -> Run as -> Java Application
 
 # Clone this repository
 $ git clone git@github.com:LucasMasayuki/shopping-guide.git
